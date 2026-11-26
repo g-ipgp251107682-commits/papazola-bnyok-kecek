@@ -1,0 +1,2722 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JawiQuest: Papazola &amp; Misteri Dua Bunyi (Misi 2)</title>
+  <!-- Google Fonts: Pixel Font + Clear Reading & Jawi Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fredoka:wght@500;600;700&family=Noto+Naskh+Arabic:wght@500;700&family=Nunito:wght@600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --royal-blue: #1E3A8A;
+      --bright-blue: #2563EB;
+      --hero-red: #DC2626;
+      --gold-yellow: #F59E0B;
+      --bright-yellow: #FACC15;
+      --dark-navy: #0F172A;
+      --cream: #FEFCE8;
+      --emerald-pepet: #10B981;
+      --emerald-dark: #065F46;
+      --purple-taling: #9333EA;
+      --purple-glow: #A855F7;
+      --purple-dark: #581C87;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #070B14;
+      color: #F8FAFC;
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #app-wrapper {
+      width: min(96vw, calc(96vh * 1.5));
+      aspect-ratio: 9 / 6;
+      max-height: 96vh;
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      #app-wrapper {
+        width: 100vw;
+        aspect-ratio: auto;
+        min-height: 100vh;
+        max-height: none;
+        overflow: visible;
+      }
+    }
+
+    .font-pixel {
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.04em;
+      line-height: 1.45;
+    }
+
+    .font-title {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .font-jawi {
+      font-family: 'Noto Naskh Arabic', 'Amiri', serif;
+      direction: rtl;
+      unicode-bidi: isolate;
+      line-height: 1.7;
+    }
+
+    /* Pixel Border & Retro RPG Frame */
+    .pixel-box {
+      border: 4px solid #1E293B;
+      box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, 0.14),
+        0 6px 0 #090D16;
+      border-radius: 10px;
+    }
+
+    .pixel-box-gold {
+      border: 4px solid #F59E0B;
+      box-shadow:
+        inset 0 0 0 3px #FEF08A,
+        0 6px 0 #78350F;
+      border-radius: 10px;
+    }
+
+    .pixel-box-pepet {
+      border: 4px solid #10B981;
+      box-shadow:
+        inset 0 0 0 2px #A7F3D0,
+        0 5px 0 #064E3B;
+      border-radius: 10px;
+    }
+
+    .pixel-box-taling {
+      border: 4px solid #A855F7;
+      box-shadow:
+        inset 0 0 0 2px #E9D5FF,
+        0 5px 0 #4C1D95;
+      border-radius: 10px;
+    }
+
+    /* Retro Chunky Buttons */
+    .pixel-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      border: 3px solid #0F172A;
+      border-radius: 10px;
+      box-shadow: 0 4px 0 #0F172A;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+    }
+
+    .pixel-btn:hover:not(:disabled) {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 0 #0F172A;
+    }
+
+    .pixel-btn:active:not(:disabled) {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #0F172A;
+    }
+
+    .pixel-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Animations */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pulseGlowGreen {
+      0%, 100% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.5); }
+      50% { box-shadow: 0 0 28px rgba(16, 185, 129, 0.95); }
+    }
+
+    @keyframes pulseGlowPurple {
+      0%, 100% { box-shadow: 0 0 12px rgba(168, 85, 247, 0.5); }
+      50% { box-shadow: 0 0 28px rgba(168, 85, 247, 0.95); }
+    }
+
+    @keyframes alarmFlash {
+      0%, 100% { background-color: rgba(220, 38, 38, 0.06); }
+      50% { background-color: rgba(220, 38, 38, 0.28); }
+    }
+
+    @keyframes speakerBounce {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.12); }
+      50% { transform: scale(0.95); }
+      75% { transform: scale(1.08); }
+    }
+
+    @keyframes soundWave {
+      0% { transform: scaleY(0.3); }
+      50% { transform: scaleY(1); }
+      100% { transform: scaleY(0.3); }
+    }
+
+    @keyframes magicPopIn {
+      0% { transform: scale(0.2) translateY(20px); opacity: 0; }
+      70% { transform: scale(1.15) translateY(-4px); opacity: 1; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes coinSpin {
+      0%, 100% { transform: scaleX(1); }
+      50% { transform: scaleX(0.3); }
+    }
+
+    .anim-float { animation: floatSlow 3s ease-in-out infinite; }
+    .anim-glow-green { animation: pulseGlowGreen 2s infinite; }
+    .anim-glow-purple { animation: pulseGlowPurple 2s infinite; }
+    .anim-alarm { animation: alarmFlash 1.1s infinite; }
+    .anim-speaker { animation: speakerBounce 0.35s infinite; }
+    .anim-magic-pop { animation: magicPopIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    .anim-coin { animation: coinSpin 1.8s infinite ease-in-out; display: inline-block; }
+
+    .wave-bar {
+      width: 6px;
+      height: 28px;
+      border-radius: 3px;
+      transform-origin: center;
+    }
+    .wave-active .wave-bar:nth-child(1) { animation: soundWave 0.45s infinite 0.0s; }
+    .wave-active .wave-bar:nth-child(2) { animation: soundWave 0.45s infinite 0.1s; }
+    .wave-active .wave-bar:nth-child(3) { animation: soundWave 0.45s infinite 0.2s; }
+    .wave-active .wave-bar:nth-child(4) { animation: soundWave 0.45s infinite 0.15s; }
+    .wave-active .wave-bar:nth-child(5) { animation: soundWave 0.45s infinite 0.05s; }
+
+    /* Custom Scrollbar for Note Panel */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0F172A;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Pixel Canvas Crisp Rendering */
+    canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+
+  <!-- MAIN RPG CONTAINER (9:6 ASPECT RATIO) -->
+  <div id="app-wrapper" class="mx-auto flex flex-col justify-between p-1.5 sm:p-2 md:p-2.5 gap-1.5 bg-slate-950/90 sm:border-4 sm:border-slate-800 sm:rounded-3xl sm:shadow-2xl">
+
+    <!-- ==================== 1. TOP HUD BAR ==================== -->
+    <header class="bg-slate-900/95 border-3 border-blue-800 rounded-xl px-2.5 py-1.5 shadow-lg flex flex-wrap items-center justify-between gap-2 z-20 shrink-0">
+      <!-- Brand & Current Level -->
+      <div class="flex items-center gap-2">
+        <button onclick="navigateTo('home')" class="pixel-btn bg-blue-700 hover:bg-blue-600 text-amber-300 px-2 py-1 text-xs" title="Skrin Utama">
+          <span>⚡</span>
+          <span class="font-pixel text-[9px] sm:text-[11px]">JAWIQUEST</span>
+        </button>
+        <div class="hidden sm:flex flex-col">
+          <span id="hud-level-tag" class="text-[9px] font-bold uppercase tracking-wider text-amber-400 leading-none">MISI 2 • DUNIA BUNYI</span>
+          <span id="hud-level-title" class="font-title font-bold text-xs md:text-sm text-white leading-tight">Markas Gelombang Bunyi</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="flex-1 min-w-[120px] max-w-xs mx-1">
+        <div class="flex justify-between text-[10px] font-bold text-slate-300 mb-0.5 leading-none">
+          <span>Kemajuan Misi</span>
+          <span id="hud-progress-text">0%</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-800 rounded-full border border-slate-600 overflow-hidden p-0.5">
+          <div id="hud-progress-bar" class="h-full bg-gradient-to-r from-amber-400 via-emerald-400 to-purple-500 rounded-full transition-all duration-500" style="width: 10%;"></div>
+        </div>
+      </div>
+
+      <!-- Crystals, Coins, Stars & Audio Button -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- Crystal Status -->
+        <div class="flex items-center gap-1.5 bg-slate-800/90 border border-slate-700 rounded-lg px-2 py-0.5" title="Status Kristal Bunyi">
+          <div id="hud-crystal-pepet" class="flex items-center gap-1 opacity-40 transition-all duration-300" title="Kristal E-Pepet">
+            <span class="inline-block w-3 h-3 rotate-45 bg-emerald-400 border border-emerald-100"></span>
+            <span class="text-[10px] font-bold text-emerald-300 hidden md:inline">Pepet</span>
+          </div>
+          <span class="text-slate-600 text-xs">|</span>
+          <div id="hud-crystal-taling" class="flex items-center gap-1 opacity-40 transition-all duration-300" title="Kristal E-Taling">
+            <span class="inline-block w-3 h-3 rotate-45 bg-purple-400 border border-purple-100"></span>
+            <span class="text-[10px] font-bold text-purple-300 hidden md:inline">Taling</span>
+          </div>
+        </div>
+
+        <!-- Coins & Stars -->
+        <div class="flex items-center gap-1.5 bg-slate-800/90 border border-amber-500/60 rounded-lg px-2 py-0.5 text-xs font-extrabold">
+          <span class="text-amber-400 flex items-center gap-0.5"><span class="anim-coin">🪙</span><span id="hud-coins">0</span></span>
+          <span class="text-yellow-300 flex items-center gap-0.5"><span>⭐</span><span id="hud-stars">0</span></span>
+        </div>
+
+        <!-- Audio Settings Trigger -->
+        <button onclick="toggleAudioModal(true)" class="pixel-btn bg-amber-400 hover:bg-amber-300 text-slate-950 px-2 py-1 text-xs" title="Tetapan Audio">
+          <span>🔊</span>
+          <span class="hidden sm:inline">Audio</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ==================== 2. MIDDLE RPG STAGE & DIALOGUE ==================== -->
+    <main class="relative flex-1 min-h-0 flex flex-col bg-slate-900 border-3 border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
+
+      <!-- Pixel World Canvas Stage (Compact so Note Panel gets maximum visibility) -->
+      <div id="stage-canvas-wrapper" class="relative w-full h-24 sm:h-28 md:h-[116px] shrink-0 bg-slate-950 overflow-hidden border-b-2 border-slate-800">
+        <canvas id="rpg-canvas" class="w-full h-full block"></canvas>
+
+        <!-- Dynamic Interactive Overlay Layer inside Stage -->
+        <div id="stage-overlay" class="absolute inset-0 pointer-events-none flex flex-col justify-between px-2.5 py-1.5 sm:px-3 sm:py-2">
+          <!-- Top Stage Badges / Quick Hints -->
+          <div class="flex justify-between items-center gap-2">
+            <div id="stage-location-pill" class="pointer-events-auto bg-slate-900/85 border border-amber-400 text-amber-300 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold shadow">
+              📍 Lokasi 1/6: Markas Gelombang Bunyi
+            </div>
+            <button onclick="openWorldMap()" class="pointer-events-auto pixel-btn bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-0.5 text-[11px]">
+              🗺️ Peta Dunia
+            </button>
+          </div>
+
+          <!-- Center Interactive Stage Widgets (Injected by JS per Level) -->
+          <div id="stage-interactive-area" class="pointer-events-auto my-auto flex items-center justify-center"></div>
+        </div>
+      </div>
+
+      <!-- Papazola RPG Dialogue Box (Compact Single/Two-Line Strip) -->
+      <div class="bg-gradient-to-r from-blue-950 via-slate-900 to-blue-950 border-b-2 border-slate-800 px-2.5 py-1.5 sm:px-3.5 sm:py-1.5 flex items-center gap-2.5 shrink-0">
+        <!-- Pixel Portrait of Cikgu Papazola -->
+        <div class="shrink-0 relative">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-blue-800 border-2 border-amber-400 flex items-center justify-center overflow-hidden shadow-md">
+            <canvas id="papazola-portrait" width="64" height="64" class="w-full h-full"></canvas>
+          </div>
+          <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-red-600 text-white text-[8px] font-extrabold px-1 rounded border border-amber-300 whitespace-nowrap leading-tight">
+            PAPAZOLA
+          </span>
+        </div>
+
+        <!-- Typewriter Dialogue Content -->
+        <div class="flex-1 min-w-0">
+          <p id="dialogue-text" class="text-xs sm:text-sm md:text-[15px] font-bold text-amber-50 leading-snug line-clamp-2">
+            “Wahai wira kebenaran! Mesin bunyi kita mengalami gangguan!”
+          </p>
+        </div>
+      </div>
+
+      <!-- ==================== 3. BOTTOM NOTE & INTERACTION PANEL ==================== -->
+      <section id="bottom-note-panel" class="flex-1 min-h-0 bg-[#FEFCE8] text-slate-900 px-2.5 py-2 sm:px-3.5 sm:py-2.5 overflow-y-auto flex flex-col justify-center">
+        <!-- Dynamic Level Content Rendered Here -->
+        <div id="level-content-container" class="max-w-5xl w-full mx-auto"></div>
+      </section>
+
+      <!-- ==================== 4. CONSISTENT NAVIGATION & AUDIO BAR ==================== -->
+      <footer class="bg-slate-900 border-t-2 border-slate-800 px-2.5 py-1.5 flex flex-wrap items-center justify-between gap-1.5 shrink-0">
+        <!-- Left Navigation Controls -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="navigateTo('home')" class="pixel-btn bg-slate-700 hover:bg-slate-600 text-white px-2 py-1 text-[11px] sm:text-xs">
+            🏠 HOME
+          </button>
+          <button onclick="openWorldMap()" class="pixel-btn bg-blue-700 hover:bg-blue-600 text-white px-2 py-1 text-[11px] sm:text-xs">
+            🗺️ WORLD MAP
+          </button>
+          <button id="btn-prev-level" onclick="prevLevel()" class="pixel-btn bg-slate-700 hover:bg-slate-600 text-white px-2 py-1 text-[11px] sm:text-xs">
+            ⬅️ KEMBALI
+          </button>
+        </div>
+
+        <!-- Center Utility Controls (Speech Speed Mode & Note Audio) -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button id="btn-speech-mode" onclick="toggleSpeechMode()" class="pixel-btn bg-amber-200 hover:bg-amber-300 text-slate-900 px-2 py-1 text-[11px] sm:text-xs" title="Tukar Kelajuan Sebutan">
+            ⚡ Mod: Biasa
+          </button>
+          <button onclick="replayLevelAnimation()" class="pixel-btn bg-purple-600 hover:bg-purple-500 text-white px-2 py-1 text-[11px] sm:text-xs">
+            🔄 ULANG ANIMASI
+          </button>
+        </div>
+
+        <!-- Right Next Button -->
+        <div>
+          <button id="btn-next-level" onclick="nextLevel()" class="pixel-btn bg-red-600 hover:bg-red-500 text-white px-3 py-1 text-[11px] sm:text-xs">
+            SETERUSNYA ➡️
+          </button>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- ==================== WORLD MAP MODAL ==================== -->
+  <div id="world-map-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-40 hidden items-center justify-center p-3">
+    <div class="bg-slate-900 border-4 border-amber-400 rounded-2xl w-full max-w-4xl p-4 sm:p-6 shadow-2xl relative">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h2 class="font-pixel text-sm sm:text-lg text-amber-400">🗺️ PETA DUNIA JAWI KEBENARAN</h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1">Pilih mana-mana lokasi untuk mengembara bersama Cikgu Papazola!</p>
+        </div>
+        <button onclick="closeWorldMap()" class="pixel-btn bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 text-xs">
+          ✖ TUTUP
+        </button>
+      </div>
+
+      <!-- Interactive Pixel Map Canvas -->
+      <div class="relative bg-emerald-950 border-4 border-slate-700 rounded-xl overflow-hidden mb-4">
+        <canvas id="world-map-canvas" width="800" height="320" class="w-full h-56 sm:h-72 block cursor-pointer"></canvas>
+      </div>
+
+      <!-- Location Quick Buttons -->
+      <div id="map-location-buttons" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+    </div>
+  </div>
+
+  <!-- ==================== AUDIO SETTINGS MODAL ==================== -->
+  <div id="audio-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 hidden items-center justify-center p-3">
+    <div class="bg-slate-900 border-4 border-blue-500 rounded-2xl w-full max-w-md p-5 shadow-2xl text-slate-100">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-pixel text-sm text-amber-400">🔊 TETAPAN AUDIO</h3>
+        <button onclick="toggleAudioModal(false)" class="pixel-btn bg-red-600 text-white px-2.5 py-1 text-xs">✖</button>
+      </div>
+
+      <!-- Voice Status Notice -->
+      <div id="voice-status-banner" class="mb-4 p-3 rounded-xl bg-slate-800 border-2 border-amber-500/70 text-xs leading-relaxed">
+        <div class="font-bold text-amber-300 mb-1">Status Suara Bahasa Indonesia (id-ID):</div>
+        <div id="voice-status-text" class="text-slate-200">Menyemak suara pelayar...</div>
+      </div>
+
+      <!-- Sliders -->
+      <div class="space-y-4 text-sm font-bold">
+        <div>
+          <div class="flex justify-between mb-1">
+            <span>🎵 Muzik Latar Retro</span>
+            <span id="bgm-vol-label">35%</span>
+          </div>
+          <input id="bgm-slider" type="range" min="0" max="100" value="35" oninput="updateVolume('bgm', this.value)" class="w-full accent-amber-400 cursor-pointer" />
+        </div>
+
+        <div>
+          <div class="flex justify-between mb-1">
+            <span>🎮 Kesan Bunyi (SFX)</span>
+            <span id="sfx-vol-label">80%</span>
+          </div>
+          <input id="sfx-slider" type="range" min="0" max="100" value="80" oninput="updateVolume('sfx', this.value)" class="w-full accent-emerald-400 cursor-pointer" />
+        </div>
+
+        <div>
+          <div class="flex justify-between mb-1">
+            <span>🗣️ Suara Narasi &amp; Perkataan</span>
+            <span id="voice-vol-label">100%</span>
+          </div>
+          <input id="voice-slider" type="range" min="0" max="100" value="100" oninput="updateVolume('voice', this.value)" class="w-full accent-purple-400 cursor-pointer" />
+        </div>
+
+        <div class="pt-2 border-t border-slate-700 flex items-center justify-between">
+          <span>Kelajuan Sebutan:</span>
+          <div class="flex gap-2">
+            <button id="modal-mode-normal" onclick="setSpeechMode('normal')" class="pixel-btn bg-emerald-600 text-white px-3 py-1 text-xs">MOD BIASA (0.95x)</button>
+            <button id="modal-mode-slow" onclick="setSpeechMode('slow')" class="pixel-btn bg-slate-700 text-white px-3 py-1 text-xs">MOD PERLAHAN (0.78x)</button>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-700 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-300">Pilihan Suara Pelayar (id-ID):</span>
+            <button onclick="testMalayVoiceSample()" class="pixel-btn bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 text-xs">
+              🎤 Uji Suara
+            </button>
+          </div>
+          <select id="voice-selector" onchange="selectManualVoice(this.value)" class="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-2.5 py-1.5 text-xs text-white focus:border-amber-400 outline-none">
+            <option value="">Auto — Bahasa Indonesia (id-ID)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-5 flex justify-between items-center">
+        <button onclick="resetProgress()" class="text-xs text-red-400 hover:text-red-300 underline font-bold">Set Semula Kemajuan</button>
+        <button onclick="toggleAudioModal(false)" class="pixel-btn bg-amber-400 text-slate-950 px-4 py-2 text-xs">SIMPAN &amp; TUTUP</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast-box" class="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300">
+    <div id="toast-inner" class="bg-slate-900 border-3 border-amber-400 text-amber-200 px-4 py-2 rounded-xl shadow-xl font-bold text-xs sm:text-sm flex items-center gap-2">
+      <span>✨</span>
+      <span id="toast-message">Mesej</span>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       1. KONFIGURASI RAKAMAN MP3 BAHASA MELAYU MALAYSIA (MUDAH DIGANTI)
+       Cikgu boleh memasukkan pautan fail .mp3 sebenar di sini. Jika dibiarkan
+       kosong (''), sistem akan menggunakan Web Speech API (ms-MY) secara pintar.
+       ========================================================================= */
+    const AUDIO_MP3_MAP = {
+      // Contoh perkataan E-Pepet
+      'emak': '',
+      'enam': '',
+      'kera': '',
+      'besar': '',
+      'kelapa': '',
+      'semut': '',
+      // Contoh perkataan E-Taling
+      'ekor': '',
+      'esok': '',
+      'elok': '',
+      'meja': '',
+      'leher': '',
+      'leper': '',
+      // Suku kata (pilihan)
+      'e-mak': '',
+      'e-nam': '',
+      'ke-ra': '',
+      'be-sar': '',
+      'ke-la-pa': '',
+      'se-mut': '',
+      'e-kor': '',
+      'e-sok': '',
+      'e-lok': '',
+      'me-ja': '',
+      'le-her': '',
+      'le-per': ''
+    };
+
+    /* =========================================================================
+       2. PANGKALAN DATA KANDUNGAN JAWI TAHUN 2 (SEMAKAN PEDOMAN EJAAN JAWI DBP)
+       ========================================================================= */
+    const WORDS_DATA = {
+      pepet: [
+        {
+          id: 'emak',
+          rumi: 'Emak',
+          highlightHtml: '<span class="text-emerald-600 underline decoration-4">E</span>mak',
+          syllables: ['e', 'mak'],
+          jawi: 'امق',
+          letters: ['ا', 'م', 'ق'],
+          vowelMarker: 'ا (Alif)',
+          position: 'awal',
+          icon: '👩',
+          ruleShort: 'E-pepet di awal perkataan menggunakan huruf Alif (ا).',
+          ruleDetail: 'Suku kata pertama "e" berbunyi e-pepet di awal kata ditulis dengan huruf Alif (ا), diikuti م dan ق untuk suku kata tertutup "mak".'
+        },
+        {
+          id: 'enam',
+          rumi: 'Enam',
+          highlightHtml: '<span class="text-emerald-600 underline decoration-4">E</span>nam',
+          syllables: ['e', 'nam'],
+          jawi: 'انم',
+          letters: ['ا', 'ن', 'م'],
+          vowelMarker: 'ا (Alif)',
+          position: 'awal',
+          icon: '6️⃣',
+          ruleShort: 'E-pepet di awal perkataan dilambangkan dengan huruf Alif (ا).',
+          ruleDetail: 'Huruf Alif (ا) digunakan pada awal perkataan bagi bunyi e-pepet "e", manakala suku kata tertutup "nam" dieja ن + م tanpa Alif di tengah.'
+        },
+        {
+          id: 'kera',
+          rumi: 'Kera',
+          highlightHtml: 'K<span class="text-emerald-600 underline decoration-4">e</span>ra',
+          syllables: ['ke', 'ra'],
+          jawi: 'کرا',
+          letters: ['ک', 'ر', 'ا'],
+          vowelMarker: 'Tiada huruf vokal',
+          position: 'tengah',
+          icon: '🐒',
+          ruleShort: 'E-pepet di tengah suku kata "ke-" digugurkan huruf vokal.',
+          ruleDetail: 'Suku kata praakhir "ke" yang mengandungi vokal e-pepet tidak ditulis dengan huruf vokal. Huruf ک terus bersambung dengan ر dan ا.'
+        },
+        {
+          id: 'besar',
+          rumi: 'Besar',
+          highlightHtml: 'B<span class="text-emerald-600 underline decoration-4">e</span>sar',
+          syllables: ['be', 'sar'],
+          jawi: 'بسر',
+          letters: ['ب', 'س', 'ر'],
+          vowelMarker: 'Tiada huruf vokal',
+          position: 'tengah',
+          icon: '🐘',
+          ruleShort: 'E-pepet di tengah suku kata "be-" tidak menggunakan huruf vokal.',
+          ruleDetail: 'Dalam perkataan "besar", bunyi e-pepet pada suku kata "be" tidak dilambangkan dengan huruf vokal. Huruf ب + س + ر bercantum terus.'
+        },
+        {
+          id: 'kelapa',
+          rumi: 'Kelapa',
+          highlightHtml: 'K<span class="text-emerald-600 underline decoration-4">e</span>lapa',
+          syllables: ['ke', 'la', 'pa'],
+          jawi: 'کلاڤ',
+          letters: ['ک', 'ل', 'ا', 'ڤ'],
+          vowelMarker: 'Tiada huruf vokal',
+          position: 'tengah',
+          icon: '🥥',
+          ruleShort: 'Suku kata "ke-" berbunyi e-pepet tidak ditulis huruf vokal.',
+          ruleDetail: 'Suku kata pertama "ke" (e-pepet) ditulis ک sahaja tanpa vokal, diikuti "la" (لا) dan "pa" di akhir kata (ڤ).'
+        },
+        {
+          id: 'semut',
+          rumi: 'Semut',
+          highlightHtml: 'S<span class="text-emerald-600 underline decoration-4">e</span>mut',
+          syllables: ['se', 'mut'],
+          jawi: 'سموت',
+          letters: ['س', 'م', 'و', 'ت'],
+          vowelMarker: 'Tiada huruf vokal',
+          position: 'tengah',
+          icon: '🐜',
+          ruleShort: 'Suku kata "se-" berbunyi e-pepet digugurkan huruf vokal.',
+          ruleDetail: 'Bunyi e-pepet pada "se" ditulis dengan huruf س sahaja tanpa huruf vokal, kemudian disambung dengan "mut" (موت).'
+        }
+      ],
+      taling: [
+        {
+          id: 'ekor',
+          rumi: 'Ekor',
+          highlightHtml: '<span class="text-purple-600 underline decoration-4">E</span>kor',
+          syllables: ['e', 'kor'],
+          jawi: 'ايکور',
+          letters: ['ا', 'ي', 'ک', 'و', 'ر'],
+          vowelMarker: 'اي (Alif + Ya)',
+          position: 'awal',
+          icon: '🦊',
+          ruleShort: 'E-taling di awal perkataan menggunakan huruf Alif dan Ya (اي).',
+          ruleDetail: 'Apabila vokal e-taling berada di awal perkataan seperti "ekor", ia dilambangkan dengan gabungan huruf Alif dan Ya (اي).'
+        },
+        {
+          id: 'esok',
+          rumi: 'Esok',
+          highlightHtml: '<span class="text-purple-600 underline decoration-4">E</span>sok',
+          syllables: ['e', 'sok'],
+          jawi: 'ايسوق',
+          letters: ['ا', 'ي', 'س', 'و', 'ق'],
+          vowelMarker: 'اي (Alif + Ya)',
+          position: 'awal',
+          icon: '🌅',
+          ruleShort: 'E-taling di awal perkataan ditulis dengan Alif + Ya (اي).',
+          ruleDetail: 'Bunyi e-taling pada awal perkataan "esok" dieja dengan Alif dan Ya (اي), diikuti س + و + ق bagi suku kata "sok".'
+        },
+        {
+          id: 'elok',
+          rumi: 'Elok',
+          highlightHtml: '<span class="text-purple-600 underline decoration-4">E</span>lok',
+          syllables: ['e', 'lok'],
+          jawi: 'ايلوق',
+          letters: ['ا', 'ي', 'ل', 'و', 'ق'],
+          vowelMarker: 'اي (Alif + Ya)',
+          position: 'awal',
+          icon: '🌟',
+          ruleShort: 'E-taling di awal perkataan dilambangkan dengan Alif + Ya (اي).',
+          ruleDetail: 'Vokal e-taling di awal perkataan "elok" wajib menggunakan Alif dan Ya (اي) supaya jelas dibezakan daripada bunyi e-pepet.'
+        },
+        {
+          id: 'meja',
+          rumi: 'Meja',
+          highlightHtml: 'M<span class="text-purple-600 underline decoration-4">e</span>ja',
+          syllables: ['me', 'ja'],
+          jawi: 'ميجا',
+          letters: ['م', 'ي', 'ج', 'ا'],
+          vowelMarker: 'ي (Huruf Ya)',
+          position: 'tengah',
+          icon: '🪑',
+          ruleShort: 'E-taling di tengah perkataan dilambangkan dengan huruf Ya (ي).',
+          ruleDetail: 'Pada suku kata "me" yang berbunyi e-taling di tengah perkataan, huruf Ya (ي) hadir selepas huruf م menjadi مي + جا.'
+        },
+        {
+          id: 'leher',
+          rumi: 'Leher',
+          highlightHtml: 'L<span class="text-purple-600 underline decoration-4">e</span>h<span class="text-purple-600 underline decoration-4">e</span>r',
+          syllables: ['le', 'her'],
+          jawi: 'ليهير',
+          letters: ['ل', 'ي', 'هـ', 'ي', 'ر'],
+          vowelMarker: 'ي (Huruf Ya)',
+          position: 'tengah',
+          icon: '🦒',
+          ruleShort: 'Vokal e-taling pada kedua-dua suku kata menggunakan huruf Ya (ي).',
+          ruleDetail: 'Suku kata "le" (لي) dan "her" (هير) kedua-duanya mempunyai bunyi e-taling, maka huruf Ya (ي) digunakan pada kedua-duanya.'
+        },
+        {
+          id: 'leper',
+          rumi: 'Leper',
+          highlightHtml: 'L<span class="text-purple-600 underline decoration-4">e</span>p<span class="text-purple-600 underline decoration-4">e</span>r',
+          syllables: ['le', 'per'],
+          jawi: 'ليڤير',
+          letters: ['ل', 'ي', 'ڤ', 'ي', 'ر'],
+          vowelMarker: 'ي (Huruf Ya)',
+          position: 'tengah',
+          icon: '🥏',
+          ruleShort: 'Vokal e-taling pada kedua-dua suku kata menggunakan huruf Ya (ي).',
+          ruleDetail: 'Suku kata "le" (لي) dan "per" (ڤير) kedua-duanya berbunyi e-taling, maka huruf Ya (ي) hadir selepas ل dan ڤ.'
+        }
+      ]
+    };
+
+    const COMPARISON_PAIRS = [
+      { pepet: WORDS_DATA.pepet[0], taling: WORDS_DATA.taling[0] }, // Emak vs Ekor
+      { pepet: WORDS_DATA.pepet[1], taling: WORDS_DATA.taling[1] }, // Enam vs Esok
+      { pepet: WORDS_DATA.pepet[2], taling: WORDS_DATA.taling[3] }, // Kera vs Meja
+      { pepet: WORDS_DATA.pepet[3], taling: WORDS_DATA.taling[5] }  // Besar vs Leper
+    ];
+
+    const LEVELS_META = [
+      { id: 1, key: 'level1', name: 'Markas Gelombang Bunyi', short: 'Markas Bunyi', icon: '📡', mapX: 110, mapY: 160 },
+      { id: 2, key: 'level2', name: 'Hutan Kristal E-Pepet', short: 'Hutan E-Pepet', icon: '🌲', mapX: 245, mapY: 95 },
+      { id: 3, key: 'level3', name: 'Menara Kristal E-Taling', short: 'Menara E-Taling', icon: '🏰', mapX: 390, mapY: 220 },
+      { id: 4, key: 'level4', name: 'Makmal Perbandingan Bunyi', short: 'Makmal Bunyi', icon: '🔬', mapX: 525, mapY: 105 },
+      { id: 5, key: 'level5', name: 'Bengkel Mesin Ejaan Jawi', short: 'Bengkel Ejaan', icon: '⚙️', mapX: 650, mapY: 215 },
+      { id: 6, key: 'level6', name: 'Portal Kebenaran', short: 'Portal Kebenaran', icon: '🌀', mapX: 735, mapY: 120 }
+    ];
+
+    /* =========================================================================
+       3. KEADAAN PERMAINAN (GAME STATE) & PENYIMPANAN LOCALSTORAGE
+       ========================================================================= */
+    const STORAGE_KEY = 'jawiquest_misi2_state_v1';
+
+    const gameState = {
+      screen: 'home',
+      coins: 0,
+      stars: 0,
+      pepetCrystalRestored: false,
+      talingCrystalRestored: false,
+      portalActivated: false,
+      exploredPepet: [],
+      exploredTaling: [],
+      visitedLevels: [1],
+      level2Tab: 'awal',
+      level3Tab: 'awal',
+      level4PairIdx: 0,
+      level4TableTab: 'awal',
+      level5WordIdx: 0,
+      level6ChallengeIdx: 0,
+      level6Completed: [false, false, false],
+      speechMode: 'normal',
+      volBgm: 35,
+      volSfx: 80,
+      volVoice: 100
+    };
+
+    function loadGameState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          Object.assign(gameState, parsed);
+        }
+      } catch (e) {
+        console.warn('Gagal membaca localStorage:', e);
+      }
+      const bgmSlider = document.getElementById('bgm-slider');
+      const sfxSlider = document.getElementById('sfx-slider');
+      const voiceSlider = document.getElementById('voice-slider');
+      if (bgmSlider) bgmSlider.value = gameState.volBgm;
+      if (sfxSlider) sfxSlider.value = gameState.volSfx;
+      if (voiceSlider) voiceSlider.value = gameState.volVoice;
+      const bgmLabel = document.getElementById('bgm-vol-label');
+      const sfxLabel = document.getElementById('sfx-vol-label');
+      const voiceLabel = document.getElementById('voice-vol-label');
+      if (bgmLabel) bgmLabel.textContent = `${gameState.volBgm}%`;
+      if (sfxLabel) sfxLabel.textContent = `${gameState.volSfx}%`;
+      if (voiceLabel) voiceLabel.textContent = `${gameState.volVoice}%`;
+    }
+
+    function saveGameState() {
+      try {
+        const toSave = {
+          coins: gameState.coins,
+          stars: gameState.stars,
+          pepetCrystalRestored: gameState.pepetCrystalRestored,
+          talingCrystalRestored: gameState.talingCrystalRestored,
+          portalActivated: gameState.portalActivated,
+          exploredPepet: gameState.exploredPepet,
+          exploredTaling: gameState.exploredTaling,
+          visitedLevels: gameState.visitedLevels,
+          speechMode: gameState.speechMode,
+          volBgm: gameState.volBgm,
+          volSfx: gameState.volSfx,
+          volVoice: gameState.volVoice,
+          level6Completed: gameState.level6Completed
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+      } catch (e) {
+        console.warn('Tidak dapat menyimpan localStorage:', e);
+      }
+      updateHUD();
+    }
+
+    function resetProgress() {
+      localStorage.removeItem(STORAGE_KEY);
+      gameState.coins = 0;
+      gameState.stars = 0;
+      gameState.pepetCrystalRestored = false;
+      gameState.talingCrystalRestored = false;
+      gameState.portalActivated = false;
+      gameState.exploredPepet = [];
+      gameState.exploredTaling = [];
+      gameState.visitedLevels = [1];
+      gameState.level6Completed = [false, false, false];
+      gameState.level6ChallengeIdx = 0;
+      saveGameState();
+      toggleAudioModal(false);
+      showToast('Kemajuan permainan telah ditetapkan semula!');
+      navigateTo('home');
+    }
+
+    /* =========================================================================
+       4. SISTEM AUDIO: WEB AUDIO API (17 SFX + BGM) & WEB SPEECH API (id-ID)
+       ========================================================================= */
+    let audioCtx = null;
+    let bgmInterval = null;
+    let isSpeaking = false;
+    let malayVoice = null;
+    let selectedVoiceURI = '';
+    let voiceAvailabilityStatus = 'checking';
+    let currentDialogueText = '';
+    let typewriterTimer = null;
+    let currentAudioObj = null;
+
+    const MALAY_PRONUNCIATION_HINTS = {
+      'emak': 'emak',
+      'enam': 'enam',
+      'kera': 'kera',
+      'besar': 'besar',
+      'kelapa': 'kelapa',
+      'semut': 'semut',
+      'ekor': 'ékor',
+      'esok': 'ésok',
+      'elok': 'élok',
+      'meja': 'méja',
+      'leher': 'léhér',
+      'leper': 'lépér'
+    };
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          audioCtx = new AudioContext();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      startRetroBGM();
+    }
+
+    // Penapisan suara: Utamakan Bahasa Indonesia (id-ID), sekat suara Inggeris
+    function isDisallowedVoice(v) {
+      if (!v) return true;
+      const lang = (v.lang || '').toLowerCase();
+      const name = (v.name || '').toLowerCase();
+      if (lang.startsWith('en')) return true;
+      if (
+        name.includes('english') ||
+        name.includes('united states') ||
+        name.includes('united kingdom') ||
+        name.includes('american') ||
+        name.includes('british') ||
+        name.includes('david') ||
+        name.includes('zira') ||
+        name.includes('mark')
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    function loadVoices() {
+      if (!('speechSynthesis' in window)) {
+        voiceAvailabilityStatus = 'unavailable';
+        updateVoiceBanner();
+        return;
+      }
+
+      const allVoices = window.speechSynthesis.getVoices() || [];
+      const selector = document.getElementById('voice-selector');
+      const allowedVoices = allVoices.filter(v => !isDisallowedVoice(v));
+
+      allowedVoices.sort((a, b) => {
+        const aLang = (a.lang || '').toLowerCase();
+        const bLang = (b.lang || '').toLowerCase();
+        const aName = (a.name || '').toLowerCase();
+        const bName = (b.name || '').toLowerCase();
+        const aScore = (aLang.startsWith('id') ? 10 : 0) +
+          (aName.includes('ardi') || aName.includes('damayanti') || aName.includes('gadis') || aName.includes('indonesia') ? 5 : 0);
+        const bScore = (bLang.startsWith('id') ? 10 : 0) +
+          (bName.includes('ardi') || bName.includes('damayanti') || bName.includes('gadis') || bName.includes('indonesia') ? 5 : 0);
+        return bScore - aScore;
+      });
+
+      if (selector) {
+        const prevVal = selectedVoiceURI || selector.value;
+        selector.innerHTML = `<option value="">Auto — Bahasa Indonesia (id-ID)</option>` +
+          allowedVoices.map(v => `<option value="${v.voiceURI}">${v.name} (${v.lang})</option>`).join('');
+        if (prevVal && allowedVoices.some(v => v.voiceURI === prevVal)) {
+          selector.value = prevVal;
+        }
+      }
+
+      if (selectedVoiceURI) {
+        malayVoice = allowedVoices.find(v => v.voiceURI === selectedVoiceURI) || null;
+      }
+      if (!malayVoice) {
+        malayVoice = allowedVoices.find(v => (v.lang || '').toLowerCase() === 'id-id') ||
+                     allowedVoices.find(v => (v.lang || '').toLowerCase().startsWith('id')) ||
+                     allowedVoices[0] || null;
+      }
+
+      if (malayVoice) {
+        voiceAvailabilityStatus = (malayVoice.lang || '').toLowerCase().includes('id') ? 'ms-available' : 'ms-fallback';
+      } else {
+        voiceAvailabilityStatus = allVoices.length === 0 ? 'checking' : 'unavailable';
+      }
+
+      updateVoiceBanner();
+    }
+
+    function selectManualVoice(uri) {
+      selectedVoiceURI = uri;
+      loadVoices();
+      testMalayVoiceSample();
+    }
+
+    function testMalayVoiceSample() {
+      speakMalay('Emak dan ekor', { isWord: true });
+    }
+
+    function updateVoiceBanner() {
+      const bannerText = document.getElementById('voice-status-text');
+      if (!bannerText) return;
+      if (voiceAvailabilityStatus === 'ms-available') {
+        bannerText.innerHTML = `<span class="text-emerald-400 font-bold">✅ Aktif:</span> ${malayVoice.name} (${malayVoice.lang})`;
+      } else if (voiceAvailabilityStatus === 'ms-fallback') {
+        bannerText.innerHTML = `<span class="text-amber-300 font-bold">⚠️ Mod Pelayar (id-ID):</span> Menggunakan enjin pelayar untuk sebutan Bahasa Indonesia.`;
+      } else if (voiceAvailabilityStatus === 'checking') {
+        bannerText.innerHTML = `<span class="text-sky-300">⏳ Memuatkan senarai suara pelayar (id-ID)...</span>`;
+      } else {
+        bannerText.innerHTML = `<span class="text-amber-300 font-bold">ℹ️ Makluman:</span> Pek suara tempatan id-ID tidak dikesan. Sistem tetap menghantar kod bahasa <strong>id-ID</strong> kepada pelayar, atau anda boleh memuatkan fail MP3 dalam <code>AUDIO_MP3_MAP</code>.`;
+      }
+    }
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      loadVoices();
+      setTimeout(loadVoices, 400);
+      setTimeout(loadVoices, 1200);
+    }
+
+    // Kamus Penukaran Aksara & Perkataan Jawi kepada Sebutan Rumi Tepat
+    const JAWI_SPEECH_MAP = {
+      'امق': 'emak',
+      'انم': 'enam',
+      'کرا': 'kera',
+      'بسر': 'besar',
+      'کلاڤ': 'kelapa',
+      'سموت': 'semut',
+      'ايکور': 'ékor',
+      'ايسوق': 'ésok',
+      'ايلوق': 'élok',
+      'ميجا': 'méja',
+      'ليهير': 'léhér',
+      'ليڤير': 'lépér',
+      'مجا': 'meja',
+      'ماجا': 'maja',
+      'کيرا': 'kira',
+      'کارا': 'kara',
+      'اي': 'Alif dan Ya',
+      'لا': 'Lam Alif',
+      'ا': 'Alif',
+      'ب': 'Ba',
+      'ت': 'Ta',
+      'ث': 'Tha',
+      'ج': 'Jim',
+      'چ': 'Ca',
+      'ح': 'Ha',
+      'خ': 'Kha',
+      'د': 'Dal',
+      'ذ': 'Dzal',
+      'ر': 'Ra',
+      'ز': 'Zai',
+      'س': 'Sin',
+      'ش': 'Syin',
+      'ص': 'Sad',
+      'ض': 'Dad',
+      'ط': 'Ta',
+      'ظ': 'Za',
+      'ع': 'Ain',
+      'غ': 'Ghain',
+      'ڠ': 'Nga',
+      'ف': 'Fa',
+      'ڤ': 'Pa',
+      'ق': 'Qaf',
+      'ک': 'Kaf',
+      'ك': 'Kaf',
+      'ݢ': 'Ga',
+      'گ': 'Ga',
+      'ل': 'Lam',
+      'م': 'Mim',
+      'ن': 'Nun',
+      'و': 'Wau',
+      'ۏ': 'Va',
+      'هـ': 'Ha',
+      'ه': 'Ha',
+      'ء': 'Hamzah',
+      'ي': 'Ya',
+      'ى': 'Ye',
+      'ڽ': 'Nya'
+    };
+
+    function transliterateJawiForSpeech(input) {
+      let out = String(input || '');
+      const sortedKeys = Object.keys(JAWI_SPEECH_MAP).sort((a, b) => b.length - a.length);
+      for (const k of sortedKeys) {
+        out = out.split(k).join(` ${JAWI_SPEECH_MAP[k]} `);
+      }
+      // Bersihkan simbol fonetik, aksara Arab berbaki dan emoji supaya bacaan lancar
+      out = out
+        .replace(/\/[\u0259e]\//g, '')
+        .replace(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/g, '')
+        .replace(/[“”"()•⚡🎯💎🌑✅📍🗺️🗣️🏠⬅️🐢🔊🔄➡️✖🎵🎮⚙️🌀🏆✨🎖️🎉💡🔐🔮🔍✂️⏭️👆]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      return out;
+    }
+
+    function applyMalayPhoneticHints(text) {
+      return text.replace(/\b([A-Za-z]+)\b/g, (match) => {
+        const lower = match.toLowerCase();
+        if (MALAY_PRONUNCIATION_HINTS[lower]) {
+          return MALAY_PRONUNCIATION_HINTS[lower];
+        }
+        return match;
+      });
+    }
+
+    function stopAllSpeech() {
+      isSpeaking = false;
+      papazolaState.talking = false;
+      if (currentAudioObj) {
+        try {
+          currentAudioObj.pause();
+          currentAudioObj.currentTime = 0;
+        } catch (e) {}
+        currentAudioObj = null;
+      }
+      if ('speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.cancel();
+        } catch (e) {}
+      }
+    }
+
+    function speakMalay(rawText, options = {}) {
+      initAudioContext();
+      stopAllSpeech();
+
+      const { mp3Key = '', isWord = false, onEnd = null } = options;
+      // Hanya bunyikan contoh perkataan & suku kata e-pepet / e-taling; senyapkan semua penerangan
+      if (!isWord) {
+        if (typeof onEnd === 'function') onEnd();
+        return;
+      }
+
+      const voiceGain = (gameState.volVoice || 100) / 100;
+      if (voiceGain <= 0.01) {
+        if (typeof onEnd === 'function') onEnd();
+        return;
+      }
+
+      // 1. Semak jika fail MP3 khusus dibekalkan dalam AUDIO_MP3_MAP
+      if (mp3Key && AUDIO_MP3_MAP[mp3Key]) {
+        try {
+          const audio = new Audio(AUDIO_MP3_MAP[mp3Key]);
+          audio.volume = Math.min(1, voiceGain);
+          currentAudioObj = audio;
+          isSpeaking = true;
+          papazolaState.talking = true;
+          audio.onended = () => {
+            isSpeaking = false;
+            papazolaState.talking = false;
+            currentAudioObj = null;
+            if (typeof onEnd === 'function') onEnd();
+          };
+          audio.onerror = () => {
+            speakWithWebSpeech(rawText, voiceGain, onEnd);
+          };
+          audio.play().catch(() => {
+            speakWithWebSpeech(rawText, voiceGain, onEnd);
+          });
+          return;
+        } catch (err) {
+          // Teruskan ke Web Speech API jika MP3 gagal dimainkan
+        }
+      }
+
+      // 2. Gunakan Web Speech API Bahasa Melayu Malaysia (ms-MY)
+      speakWithWebSpeech(rawText, voiceGain, onEnd);
+    }
+
+    function speakWithWebSpeech(rawText, voiceGain, onEnd) {
+      if (!('speechSynthesis' in window)) {
+        if (typeof onEnd === 'function') onEnd();
+        return;
+      }
+
+      try {
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.resume();
+      } catch (e) {}
+
+      let cleanText = transliterateJawiForSpeech(rawText);
+      cleanText = applyMalayPhoneticHints(cleanText);
+      if (!cleanText) {
+        if (typeof onEnd === 'function') onEnd();
+        return;
+      }
+
+      const utter = new SpeechSynthesisUtterance(cleanText);
+      window._activeUtterance = utter;
+      utter.lang = 'id-ID';
+      if (malayVoice && !isDisallowedVoice(malayVoice)) {
+        utter.voice = malayVoice;
+      }
+      utter.volume = Math.min(1, voiceGain);
+      utter.rate = gameState.speechMode === 'slow' ? 0.75 : 0.95;
+      utter.pitch = 1.05;
+
+      isSpeaking = true;
+      papazolaState.talking = true;
+
+      utter.onend = () => {
+        isSpeaking = false;
+        papazolaState.talking = false;
+        window._activeUtterance = null;
+        if (typeof onEnd === 'function') onEnd();
+      };
+
+      utter.onerror = () => {
+        isSpeaking = false;
+        papazolaState.talking = false;
+        window._activeUtterance = null;
+        if (typeof onEnd === 'function') onEnd();
+      };
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    /* ---------------- RETRO SOUND EFFECTS & BGM (WEB AUDIO API) ---------------- */
+    function playTone(freq, duration = 0.12, type = 'square', volMultiplier = 1, delay = 0) {
+      if (!audioCtx || gameState.volSfx <= 0) return;
+      const now = audioCtx.currentTime + delay;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const baseVol = (gameState.volSfx / 100) * 0.14 * volMultiplier;
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+      gain.gain.setValueAtTime(baseVol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + duration + 0.02);
+    }
+
+    function playSFX(effectName) {
+      initAudioContext();
+      if (!audioCtx || gameState.volSfx <= 0) return;
+
+      switch (effectName) {
+        case 'click':
+          playTone(520, 0.06, 'square', 0.7, 0);
+          break;
+        case 'mission_start':
+          playTone(392, 0.1, 'square', 0.9, 0);
+          playTone(523.25, 0.1, 'square', 0.9, 0.1);
+          playTone(659.25, 0.12, 'square', 0.9, 0.2);
+          playTone(783.99, 0.25, 'square', 1.0, 0.32);
+          break;
+        case 'alarm':
+          playTone(620, 0.12, 'sawtooth', 0.7, 0);
+          playTone(440, 0.14, 'sawtooth', 0.7, 0.14);
+          break;
+        case 'footstep':
+          playTone(180, 0.05, 'triangle', 0.5, 0);
+          break;
+        case 'teleport':
+          for (let i = 0; i < 6; i++) {
+            playTone(300 + i * 110, 0.07, 'sine', 0.8, i * 0.05);
+          }
+          break;
+        case 'crystal_sparkle':
+          playTone(880, 0.1, 'sine', 0.8, 0);
+          playTone(1174.66, 0.12, 'sine', 0.8, 0.08);
+          playTone(1396.91, 0.18, 'sine', 0.9, 0.16);
+          break;
+        case 'pepet_chime':
+          playTone(440, 0.14, 'triangle', 0.85, 0);
+          playTone(554.37, 0.18, 'triangle', 0.85, 0.11);
+          break;
+        case 'taling_chime':
+          playTone(587.33, 0.14, 'sine', 0.9, 0);
+          playTone(880, 0.18, 'sine', 0.9, 0.11);
+          break;
+        case 'machine_power':
+          playTone(220, 0.1, 'sawtooth', 0.7, 0);
+          playTone(330, 0.1, 'sawtooth', 0.7, 0.1);
+          playTone(440, 0.18, 'sawtooth', 0.8, 0.2);
+          break;
+        case 'radar_pulse':
+          playTone(740, 0.09, 'sine', 0.7, 0);
+          playTone(987.77, 0.14, 'sine', 0.7, 0.09);
+          break;
+        case 'pop':
+          playTone(600, 0.06, 'sine', 0.8, 0);
+          playTone(820, 0.07, 'sine', 0.8, 0.04);
+          break;
+        case 'coin':
+          playTone(987.77, 0.07, 'square', 0.75, 0);
+          playTone(1318.51, 0.18, 'square', 0.75, 0.07);
+          break;
+        case 'correct':
+          playTone(523.25, 0.09, 'triangle', 0.9, 0);
+          playTone(659.25, 0.09, 'triangle', 0.9, 0.09);
+          playTone(783.99, 0.2, 'triangle', 1.0, 0.18);
+          break;
+        case 'wrong':
+          playTone(260, 0.14, 'triangle', 0.7, 0);
+          playTone(210, 0.2, 'triangle', 0.7, 0.14);
+          break;
+        case 'crystal_restore':
+          [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f, idx) => {
+            playTone(f, 0.16, 'sine', 0.95, idx * 0.09);
+          });
+          break;
+        case 'fanfare':
+          [523.25, 523.25, 523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
+            playTone(f, idx === 5 ? 0.35 : 0.12, 'square', 0.85, idx * 0.13);
+          });
+          break;
+      }
+    }
+
+    function startRetroBGM() {
+      if (bgmInterval) return;
+      const melody = [261.63, 329.63, 392.00, 329.63, 293.66, 349.23, 440.00, 349.23];
+      let step = 0;
+      bgmInterval = setInterval(() => {
+        if (!audioCtx || gameState.volBgm <= 0 || isSpeaking) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const vol = (gameState.volBgm / 100) * 0.03;
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(melody[step % melody.length], now);
+        gain.gain.setValueAtTime(vol, now);
+        gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.28);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+        step++;
+      }, 420);
+    }
+
+    function updateVolume(type, val) {
+      const num = parseInt(val, 10) || 0;
+      if (type === 'bgm') {
+        gameState.volBgm = num;
+        const el = document.getElementById('bgm-vol-label');
+        if (el) el.textContent = `${num}%`;
+      } else if (type === 'sfx') {
+        gameState.volSfx = num;
+        const el = document.getElementById('sfx-vol-label');
+        if (el) el.textContent = `${num}%`;
+      } else if (type === 'voice') {
+        gameState.volVoice = num;
+        const el = document.getElementById('voice-vol-label');
+        if (el) el.textContent = `${num}%`;
+      }
+      saveGameState();
+    }
+
+    function setSpeechMode(mode) {
+      gameState.speechMode = mode;
+      updateSpeechModeUI();
+      saveGameState();
+      playSFX('click');
+    }
+
+    function toggleSpeechMode() {
+      setSpeechMode(gameState.speechMode === 'normal' ? 'slow' : 'normal');
+    }
+
+    function updateSpeechModeUI() {
+      const btn = document.getElementById('btn-speech-mode');
+      const mNormal = document.getElementById('modal-mode-normal');
+      const mSlow = document.getElementById('modal-mode-slow');
+      if (btn) {
+        btn.textContent = gameState.speechMode === 'slow' ? '🐢 Mod: Perlahan' : '⚡ Mod: Biasa';
+      }
+      if (mNormal && mSlow) {
+        if (gameState.speechMode === 'normal') {
+          mNormal.className = 'pixel-btn bg-emerald-600 text-white px-3 py-1 text-xs';
+          mSlow.className = 'pixel-btn bg-slate-700 text-white px-3 py-1 text-xs';
+        } else {
+          mNormal.className = 'pixel-btn bg-slate-700 text-white px-3 py-1 text-xs';
+          mSlow.className = 'pixel-btn bg-emerald-600 text-white px-3 py-1 text-xs';
+        }
+      }
+    }
+
+    function toggleAudioModal(show) {
+      playSFX('click');
+      const modal = document.getElementById('audio-modal');
+      if (!modal) return;
+      if (show) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        updateVoiceBanner();
+      } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    /* =========================================================================
+       5. DIALOG TYPEWRITER & GANJARAN SYILING/BINTANG
+       ========================================================================= */
+    function setPapazolaDialogue(text) {
+      currentDialogueText = text;
+      const el = document.getElementById('dialogue-text');
+      if (!el) return;
+
+      if (typewriterTimer) clearInterval(typewriterTimer);
+      el.textContent = '';
+      let i = 0;
+      typewriterTimer = setInterval(() => {
+        el.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) {
+          clearInterval(typewriterTimer);
+          typewriterTimer = null;
+        }
+      }, 22);
+    }
+
+    function awardReward(coins = 10, stars = 0, reason = '') {
+      gameState.coins += coins;
+      gameState.stars += stars;
+      playSFX('coin');
+      saveGameState();
+      if (reason) {
+        showToast(`${reason} (+${coins}🪙${stars > 0 ? ` +${stars}⭐` : ''})`);
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      const txt = document.getElementById('toast-message');
+      if (!box || !txt) return;
+      txt.textContent = msg;
+      box.classList.remove('opacity-0');
+      box.classList.add('opacity-100');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.remove('opacity-100');
+        box.classList.add('opacity-0');
+      }, 2600);
+    }
+
+    /* =========================================================================
+       6. ENJIN ANIMASI PIXEL ART (PAPAZOLA & PERSEKITARAN DUNIA)
+       ========================================================================= */
+    const papazolaState = {
+      x: 130,
+      targetX: 130,
+      y: 0,
+      vy: 0,
+      jumping: false,
+      talking: false,
+      frame: 0
+    };
+
+    let portalOpening = false;
+    let portalRadius = 0;
+    let confettiParticles = [];
+    let animTick = 0;
+
+    function triggerPapazolaJump() {
+      if (!papazolaState.jumping) {
+        papazolaState.jumping = true;
+        papazolaState.vy = -8.5;
+      }
+    }
+
+    function spawnConfetti() {
+      const colors = ['#FACC15', '#10B981', '#A855F7', '#EF4444', '#3B82F6'];
+      confettiParticles = Array.from({ length: 45 }, () => ({
+        x: Math.random() * 900,
+        y: -20 - Math.random() * 140,
+        vx: (Math.random() - 0.5) * 2.5,
+        vy: 1.5 + Math.random() * 2.5,
+        size: 6 + Math.floor(Math.random() * 5),
+        color: colors[Math.floor(Math.random() * colors.length)]
+      }));
+    }
+
+    function drawPixelPapazola(ctx, x, y, scale = 3, isWalking = false, isTalking = false, tick = 0) {
+      ctx.save();
+      ctx.translate(Math.round(x), Math.round(y));
+
+      const bob = isWalking ? Math.sin(tick * 0.35) * 3 : Math.sin(tick * 0.1) * 1.5;
+      const legSwing = isWalking ? Math.sin(tick * 0.35) * 4 : 0;
+
+      // Jubah Merah Adiwira
+      ctx.fillStyle = '#DC2626';
+      ctx.fillRect(-11 * scale, (-22 + bob) * scale, 22 * scale, 18 * scale);
+
+      // Kaki (Seluar Biru Diraja & Kasut Kuning)
+      ctx.fillStyle = '#1E3A8A';
+      ctx.fillRect(-7 * scale, (-8 + legSwing) * scale, 5 * scale, 8 * scale);
+      ctx.fillRect(2 * scale, (-8 - legSwing) * scale, 5 * scale, 8 * scale);
+      ctx.fillStyle = '#FACC15';
+      ctx.fillRect(-8 * scale, (-2 + legSwing) * scale, 6 * scale, 3 * scale);
+      ctx.fillRect(2 * scale, (-2 - legSwing) * scale, 6 * scale, 3 * scale);
+
+      // Badan (Sut Biru Diraja + Lambang Kebenaran Kuning)
+      ctx.fillStyle = '#2563EB';
+      ctx.fillRect(-9 * scale, (-23 + bob) * scale, 18 * scale, 15 * scale);
+      // Tali Pinggang Kuning
+      ctx.fillStyle = '#FACC15';
+      ctx.fillRect(-9 * scale, (-11 + bob) * scale, 18 * scale, 3 * scale);
+      // Lambang Dada
+      ctx.fillStyle = '#FACC15';
+      ctx.fillRect(-3 * scale, (-20 + bob) * scale, 6 * scale, 5 * scale);
+      ctx.fillStyle = '#DC2626';
+      ctx.fillRect(-1 * scale, (-19 + bob) * scale, 2 * scale, 3 * scale);
+
+      // Tangan
+      ctx.fillStyle = '#2563EB';
+      ctx.fillRect(-13 * scale, (-21 + bob - legSwing * 0.5) * scale, 4 * scale, 10 * scale);
+      ctx.fillRect(9 * scale, (-21 + bob + legSwing * 0.5) * scale, 4 * scale, 10 * scale);
+      ctx.fillStyle = '#FACC15'; // Sarung tangan kuning
+      ctx.fillRect(-13 * scale, (-12 + bob - legSwing * 0.5) * scale, 4 * scale, 3 * scale);
+      ctx.fillRect(9 * scale, (-12 + bob + legSwing * 0.5) * scale, 4 * scale, 3 * scale);
+
+      // Kepala & Rambut Jambul Hero
+      ctx.fillStyle = '#FDBA74';
+      ctx.fillRect(-8 * scale, (-36 + bob) * scale, 16 * scale, 13 * scale);
+      // Rambut Hitam Bergaya
+      ctx.fillStyle = '#0F172A';
+      ctx.fillRect(-9 * scale, (-39 + bob) * scale, 18 * scale, 5 * scale);
+      ctx.fillRect(-5 * scale, (-42 + bob) * scale, 10 * scale, 3 * scale);
+
+      // Topeng Biru & Mata
+      ctx.fillStyle = '#1E3A8A';
+      ctx.fillRect(-8 * scale, (-33 + bob) * scale, 16 * scale, 4 * scale);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(-5 * scale, (-32 + bob) * scale, 3 * scale, 2 * scale);
+      ctx.fillRect(2 * scale, (-32 + bob) * scale, 3 * scale, 2 * scale);
+
+      // Misai Lentik Kebenaran
+      ctx.fillStyle = '#0F172A';
+      ctx.fillRect(-6 * scale, (-27 + bob) * scale, 12 * scale, 2 * scale);
+      ctx.fillRect(-7 * scale, (-28 + bob) * scale, 2 * scale, 2 * scale);
+      ctx.fillRect(5 * scale, (-28 + bob) * scale, 2 * scale, 2 * scale);
+
+      // Mulut Bercakap / Senyum
+      if (isTalking && Math.floor(tick / 4) % 2 === 0) {
+        ctx.fillStyle = '#DC2626';
+        ctx.fillRect(-3 * scale, (-25 + bob) * scale, 6 * scale, 3 * scale);
+      } else {
+        ctx.fillStyle = '#7C2D12';
+        ctx.fillRect(-3 * scale, (-25 + bob) * scale, 6 * scale, 1.5 * scale);
+      }
+
+      ctx.restore();
+    }
+
+    function drawPapazolaPortrait() {
+      const pCanvas = document.getElementById('papazola-portrait');
+      if (!pCanvas) return;
+      const pCtx = pCanvas.getContext('2d');
+      pCtx.clearRect(0, 0, 64, 64);
+      drawPixelPapazola(pCtx, 32, 74, 1.7, false, papazolaState.talking, animTick);
+    }
+
+    function drawPixelCrystal(ctx, x, y, colorMain, colorLight, active, tick) {
+      const floatY = y + Math.sin(tick * 0.08) * 6;
+      ctx.save();
+      ctx.translate(x, floatY);
+
+      if (active) {
+        ctx.shadowColor = colorMain;
+        ctx.shadowBlur = 18;
+      }
+
+      ctx.fillStyle = active ? colorMain : '#334155';
+      ctx.beginPath();
+      ctx.moveTo(0, -24);
+      ctx.lineTo(15, 0);
+      ctx.lineTo(0, 24);
+      ctx.lineTo(-15, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = active ? colorLight : '#475569';
+      ctx.beginPath();
+      ctx.moveTo(0, -18);
+      ctx.lineTo(7, 0);
+      ctx.lineTo(0, 18);
+      ctx.lineTo(-4, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function renderStageCanvas() {
+      const canvas = document.getElementById('rpg-canvas');
+      if (!canvas) return;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      if (canvas.width !== Math.floor(rect.width) || canvas.height !== Math.floor(rect.height)) {
+        canvas.width = Math.floor(rect.width);
+        canvas.height = Math.floor(rect.height);
+      }
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const groundY = h - 22;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Latar belakang mengikut lokasi semasa
+      const scr = gameState.screen;
+      if (scr === 'level2') {
+        // Hutan Kristal E-Pepet (Hijau Zamrud)
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#022C22');
+        grad.addColorStop(1, '#065F46');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Pokok-pokok pixel
+        for (let tx = 40; tx < w; tx += 135) {
+          ctx.fillStyle = '#064E3B';
+          ctx.fillRect(tx, groundY - 52, 14, 52);
+          ctx.fillStyle = '#10B981';
+          ctx.fillRect(tx - 20, groundY - 78, 54, 32);
+        }
+        ctx.fillStyle = '#047857';
+        ctx.fillRect(0, groundY, w, 22);
+      } else if (scr === 'level3') {
+        // Menara Kristal E-Taling (Ungu Bercahaya)
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#1E1B4B');
+        grad.addColorStop(1, '#581C87');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Tiang Menara Pixel
+        for (let bx = 70; bx < w; bx += 180) {
+          ctx.fillStyle = '#3B0764';
+          ctx.fillRect(bx, 22, 42, groundY - 22);
+          ctx.fillStyle = '#A855F7';
+          ctx.fillRect(bx + 14, 40, 14, 18);
+        }
+        ctx.fillStyle = '#4C1D95';
+        ctx.fillRect(0, groundY, w, 22);
+      } else if (scr === 'level4' || scr === 'level5') {
+        // Makmal & Bengkel Mesin
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#0F172A');
+        grad.addColorStop(1, '#1E3A8A');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Grid teknologi
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.14)';
+        ctx.lineWidth = 1;
+        for (let gx = 0; gx < w; gx += 32) {
+          ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, groundY); ctx.stroke();
+        }
+        ctx.fillStyle = '#1E293B';
+        ctx.fillRect(0, groundY, w, 22);
+      } else {
+        // Markas Gelombang Bunyi / Home / Portal Kebenaran
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#090D16');
+        grad.addColorStop(1, '#1E3A8A');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Awan / Bintang Pixel
+        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+        for (let i = 0; i < 18; i++) {
+          const sx = ((i * 73 + animTick * 0.2) % w);
+          const sy = 14 + (i * 23) % 60;
+          ctx.fillRect(sx, sy, 3, 3);
+        }
+        ctx.fillStyle = '#1E293B';
+        ctx.fillRect(0, groundY, w, 22);
+      }
+
+      // Garis lantai pixel emas
+      ctx.fillStyle = '#F59E0B';
+      ctx.fillRect(0, groundY, w, 3);
+
+      // Lukis Dua Kristal di pentas
+      drawPixelCrystal(ctx, w - 115, 48, '#10B981', '#A7F3D0', gameState.pepetCrystalRestored, animTick);
+      drawPixelCrystal(ctx, w - 60, 48, '#A855F7', '#F3E8FF', gameState.talingCrystalRestored, animTick + 15);
+
+      // Animasi Portal Terbuka
+      if (portalOpening || scr === 'level6') {
+        const px = w * 0.5;
+        const py = groundY - 38;
+        const rad = portalOpening ? (portalRadius = Math.min(38, portalRadius + 2.5)) : 32;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, rad, 0, Math.PI * 2);
+        ctx.fillStyle = gameState.portalActivated ? '#FACC15' : '#38BDF8';
+        ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#A855F7';
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // Fizik Pergerakan & Lompatan Papazola
+      let walking = false;
+      if (Math.abs(papazolaState.targetX - papazolaState.x) > 3) {
+        papazolaState.x += (papazolaState.targetX - papazolaState.x) * 0.08;
+        walking = true;
+      }
+      if (papazolaState.jumping) {
+        papazolaState.y += papazolaState.vy;
+        papazolaState.vy += 0.55;
+        if (papazolaState.y >= 0) {
+          papazolaState.y = 0;
+          papazolaState.jumping = false;
+        }
+      }
+
+      const safeX = Math.min(Math.max(48, papazolaState.x), w - 55);
+      drawPixelPapazola(ctx, safeX, groundY + papazolaState.y, 1.75, walking, papazolaState.talking, animTick);
+
+      // Konfeti kemenangan jika ada
+      if (confettiParticles.length > 0) {
+        confettiParticles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y > h) p.y = -10;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x % w, p.y, p.size, p.size);
+        });
+      }
+    }
+
+    function animationLoop() {
+      animTick++;
+      renderStageCanvas();
+      if (animTick % 3 === 0) drawPapazolaPortrait();
+      requestAnimationFrame(animationLoop);
+    }
+
+    /* =========================================================================
+       7. SISTEM NAVIGASI & WORLD MAP
+       ========================================================================= */
+    function updateHUD() {
+      const coinsEl = document.getElementById('hud-coins');
+      const starsEl = document.getElementById('hud-stars');
+      if (coinsEl) coinsEl.textContent = gameState.coins;
+      if (starsEl) starsEl.textContent = gameState.stars;
+
+      const cPepet = document.getElementById('hud-crystal-pepet');
+      const cTaling = document.getElementById('hud-crystal-taling');
+      if (cPepet) cPepet.style.opacity = gameState.pepetCrystalRestored ? '1' : '0.35';
+      if (cTaling) cTaling.style.opacity = gameState.talingCrystalRestored ? '1' : '0.35';
+
+      // Kira kemajuan keseluruhan
+      let score = 0;
+      score += Math.min(6, gameState.exploredPepet.length) * 6;
+      score += Math.min(6, gameState.exploredTaling.length) * 6;
+      if (gameState.pepetCrystalRestored) score += 10;
+      if (gameState.talingCrystalRestored) score += 10;
+      const cDone = gameState.level6Completed.filter(Boolean).length;
+      score += cDone * 6;
+      if (gameState.portalActivated) score = 100;
+      const pct = Math.min(100, Math.max(10, score));
+
+      const bar = document.getElementById('hud-progress-bar');
+      const txt = document.getElementById('hud-progress-text');
+      if (bar) bar.style.width = `${pct}%`;
+      if (txt) txt.textContent = `${pct}%`;
+
+      // Kemas kini tajuk lokasi semasa
+      const titleEl = document.getElementById('hud-level-title');
+      const pillEl = document.getElementById('stage-location-pill');
+      const meta = LEVELS_META.find(m => m.key === gameState.screen);
+      if (meta) {
+        if (titleEl) titleEl.textContent = meta.name;
+        if (pillEl) pillEl.textContent = `📍 Lokasi ${meta.id}/6: ${meta.name}`;
+      } else {
+        if (titleEl) titleEl.textContent = 'JawiQuest: Misi 2';
+        if (pillEl) pillEl.textContent = '⚡ Skrin Utama Pengembaraan';
+      }
+
+      // Kawalan butang Kembali / Seterusnya
+      const prevBtn = document.getElementById('btn-prev-level');
+      const nextBtn = document.getElementById('btn-next-level');
+      if (prevBtn) prevBtn.disabled = (gameState.screen === 'home');
+      if (nextBtn) nextBtn.disabled = (gameState.screen === 'level6');
+    }
+
+    function navigateTo(screenKey) {
+      initAudioContext();
+      stopAllSpeech();
+      playSFX('click');
+      gameState.screen = screenKey;
+      papazolaState.targetX = 95 + Math.random() * 60;
+      triggerPapazolaJump();
+
+      if (screenKey.startsWith('level')) {
+        const lvlNum = parseInt(screenKey.replace('level', ''), 10);
+        if (!gameState.visitedLevels.includes(lvlNum)) {
+          gameState.visitedLevels.push(lvlNum);
+        }
+      }
+
+      saveGameState();
+      renderCurrentScreen();
+    }
+
+    function prevLevel() {
+      const order = ['home', 'level1', 'level2', 'level3', 'level4', 'level5', 'level6'];
+      const idx = order.indexOf(gameState.screen);
+      if (idx > 0) navigateTo(order[idx - 1]);
+    }
+
+    function nextLevel() {
+      const order = ['home', 'level1', 'level2', 'level3', 'level4', 'level5', 'level6'];
+      const idx = order.indexOf(gameState.screen);
+      if (idx >= 0 && idx < order.length - 1) navigateTo(order[idx + 1]);
+    }
+
+    function openWorldMap() {
+      playSFX('click');
+      const modal = document.getElementById('world-map-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      renderWorldMap();
+    }
+
+    function closeWorldMap() {
+      playSFX('click');
+      const modal = document.getElementById('world-map-modal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderWorldMap() {
+      const canvas = document.getElementById('world-map-canvas');
+      const btnContainer = document.getElementById('map-location-buttons');
+      if (!canvas || !btnContainer) return;
+
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, 800, 320);
+
+      // Latar belakang peta retro
+      ctx.fillStyle = '#064E3B';
+      ctx.fillRect(0, 0, 800, 320);
+
+      // Laluan penghubung pixel
+      ctx.strokeStyle = '#FACC15';
+      ctx.lineWidth = 6;
+      ctx.setLineDash([12, 8]);
+      ctx.beginPath();
+      LEVELS_META.forEach((loc, i) => {
+        if (i === 0) ctx.moveTo(loc.mapX, loc.mapY);
+        else ctx.lineTo(loc.mapX, loc.mapY);
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Nod setiap lokasi
+      LEVELS_META.forEach((loc) => {
+        const isCurrent = gameState.screen === loc.key;
+        const isVisited = gameState.visitedLevels.includes(loc.id);
+
+        ctx.fillStyle = isCurrent ? '#EF4444' : isVisited ? '#10B981' : '#1E3A8A';
+        ctx.beginPath();
+        ctx.arc(loc.mapX, loc.mapY, 24, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#FACC15';
+        ctx.stroke();
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 14px Fredoka, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`L${loc.id}`, loc.mapX, loc.mapY + 5);
+        ctx.fillText(loc.short, loc.mapX, loc.mapY + 42);
+      });
+
+      canvas.onclick = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = 800 / rect.width;
+        const scaleY = 320 / rect.height;
+        const cx = (e.clientX - rect.left) * scaleX;
+        const cy = (e.clientY - rect.top) * scaleY;
+
+        for (const loc of LEVELS_META) {
+          const dist = Math.hypot(cx - loc.mapX, cy - loc.mapY);
+          if (dist <= 34) {
+            closeWorldMap();
+            navigateTo(loc.key);
+            break;
+          }
+        }
+      };
+
+      btnContainer.innerHTML = LEVELS_META.map(loc => {
+        const isCurrent = gameState.screen === loc.key;
+        return `
+          <button onclick="closeWorldMap(); navigateTo('${loc.key}')"
+            class="pixel-btn ${isCurrent ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 hover:bg-slate-700 text-white'} px-3 py-2 text-xs justify-start">
+            <span>${loc.icon}</span>
+            <span class="truncate">L${loc.id}: ${loc.short}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    /* =========================================================================
+       8. PAPARAN SKRIN & KESEMUA 6 LOKASI PEMBELAJARAN
+       ========================================================================= */
+    function renderCurrentScreen() {
+      const stageArea = document.getElementById('stage-interactive-area');
+      const noteContainer = document.getElementById('level-content-container');
+      if (!stageArea || !noteContainer) return;
+
+      stageArea.innerHTML = '';
+
+      switch (gameState.screen) {
+        case 'home':
+          renderHomeScreen(stageArea, noteContainer);
+          break;
+        case 'level1':
+          renderLevel1(stageArea, noteContainer);
+          break;
+        case 'level2':
+          renderLevel2(stageArea, noteContainer);
+          break;
+        case 'level3':
+          renderLevel3(stageArea, noteContainer);
+          break;
+        case 'level4':
+          renderLevel4(stageArea, noteContainer);
+          break;
+        case 'level5':
+          renderLevel5(stageArea, noteContainer);
+          break;
+        case 'level6':
+          renderLevel6(stageArea, noteContainer);
+          break;
+      }
+    }
+
+    /* ---------------- SKRIN UTAMA (HOME) ---------------- */
+    function renderHomeScreen(stageArea, noteContainer) {
+      setPapazolaDialogue('“Wahai wira kebenaran! Dunia Jawi mengalami gangguan bunyi! Mari pulihkan dua kristal vokal e bersama cikgu!”');
+
+      stageArea.innerHTML = `
+        <div class="bg-slate-900/90 border-2 border-amber-400 rounded-xl px-3.5 py-1.5 text-center shadow-xl max-w-md">
+          <div class="font-pixel text-[9px] text-amber-300">JAWI TAHUN 2 • MISI 2</div>
+          <h1 class="font-title font-extrabold text-base sm:text-lg text-white leading-tight">PAPAZOLA &amp; MISTERI DUA BUNYI</h1>
+        </div>
+      `;
+
+      noteContainer.innerHTML = `
+        <div class="grid md:grid-cols-3 gap-3 items-center">
+          <div class="md:col-span-2 space-y-2">
+            <div class="inline-block bg-blue-900 text-amber-300 font-extrabold text-[11px] px-2.5 py-0.5 rounded-full">
+              🎯 Tajuk: Vokal E-Pepet dan E-Taling dalam Tulisan Jawi
+            </div>
+            <h2 class="font-title font-extrabold text-lg sm:text-xl text-blue-950 leading-tight">
+              Satu Huruf <span class="text-red-600">“e”</span>, Dua Bunyi Berbeza!
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-700 font-semibold leading-snug">
+              Kristal <strong class="text-emerald-700">E-Pepet</strong> dan Kristal <strong class="text-purple-700">E-Taling</strong> telah kehilangan kuasanya. Terokai 6 lokasi pengembaraan, dengar perbezaan bunyi perkataan, dan lihat cara huruf <strong>Alif (ا)</strong> serta <strong>Ya (ي)</strong> digunakan!
+            </p>
+            <div class="flex flex-wrap gap-2 pt-0.5">
+              <button onclick="playSFX('mission_start'); navigateTo('level1')" class="pixel-btn bg-red-600 hover:bg-red-500 text-white px-4 py-2 text-xs sm:text-sm">
+                🚀 MULA PENGEMBARAAN
+              </button>
+              <button onclick="openWorldMap()" class="pixel-btn bg-blue-800 hover:bg-blue-700 text-amber-300 px-3.5 py-2 text-xs sm:text-sm">
+                🗺️ BUKA PETA DUNIA
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white border-3 border-slate-800 rounded-xl p-3 shadow-md space-y-1.5">
+            <div class="font-extrabold text-[11px] uppercase tracking-wider text-slate-500">Objektif Misi Kamu:</div>
+            <ul class="text-xs font-bold text-slate-800 space-y-1">
+              <li>✅ Bezakan bunyi <span class="text-emerald-700">e-pepet</span> &amp; <span class="text-purple-700">e-taling</span>.</li>
+              <li>✅ Kenali huruf <strong>Alif (ا)</strong> &amp; <strong>Ya (ي)</strong>.</li>
+              <li>✅ Baca &amp; eja perkataan Jawi Tahun 2.</li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ---------------- LEVEL 1: MARKAS GELOMBANG BUNYI ---------------- */
+    function renderLevel1(stageArea, noteContainer) {
+      playSFX('alarm');
+      setPapazolaDialogue('“Hurufnya sama, tetapi mengapa bunyinya berbeza? Tekan kedua-dua huruf e di bawah dan gunakan kuasa pendengaranmu!”');
+
+      stageArea.innerHTML = `
+        <div class="anim-alarm border-2 border-red-500/80 bg-slate-900/90 px-3 py-1 rounded-lg text-center">
+          <span class="font-pixel text-[9px] sm:text-[10px] text-red-400">⚠️ AMARAN SISTEM BUNYI: DUA KRISTAL MALAP!</span>
+        </div>
+      `;
+
+      noteContainer.innerHTML = `
+        <div class="space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-title font-extrabold text-base sm:text-lg text-blue-950">
+              📡 LEVEL 1: Markas Gelombang Bunyi
+            </h2>
+            <span class="text-[11px] font-extrabold bg-amber-200 text-amber-900 px-2.5 py-0.5 rounded-full">
+              Klik butang di bawah untuk mendengar contoh bunyi!
+            </span>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-3">
+            <!-- Kad E-Pepet -->
+            <div class="pixel-box-pepet bg-emerald-50 p-3 flex flex-col justify-between gap-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">VOKAL E-PEPET</span>
+                <span class="text-[11px] font-bold text-emerald-800">Simbol: /ə/</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <button onclick="testLevel1Letter('pepet')" class="pixel-btn bg-emerald-500 hover:bg-emerald-400 text-white w-12 h-12 text-2xl font-extrabold shrink-0">
+                  e
+                </button>
+                <div>
+                  <div class="font-title font-extrabold text-base text-emerald-950">Contoh: <span class="underline">E</span>mak</div>
+                  <p class="text-xs text-emerald-900 font-semibold leading-snug">
+                    Bunyi vokal tengah yang ringkas seperti dalam perkataan <strong>emak</strong>, <strong>enam</strong>, dan <strong>kera</strong>.
+                  </p>
+                </div>
+              </div>
+              <button onclick="testLevel1Letter('pepet')" class="pixel-btn bg-emerald-700 hover:bg-emerald-600 text-white py-1.5 text-xs w-full">
+                🔊 DENGAR CONTOH: “EMAK”
+              </button>
+            </div>
+
+            <!-- Kad E-Taling -->
+            <div class="pixel-box-taling bg-purple-50 p-3 flex flex-col justify-between gap-2">
+              <div class="flex items-center justify-between">
+                <span class="bg-purple-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">VOKAL E-TALING</span>
+                <span class="text-[11px] font-bold text-purple-800">Simbol: /e/</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <button onclick="testLevel1Letter('taling')" class="pixel-btn bg-purple-600 hover:bg-purple-500 text-white w-12 h-12 text-2xl font-extrabold shrink-0">
+                  e
+                </button>
+                <div>
+                  <div class="font-title font-extrabold text-base text-purple-950">Contoh: <span class="underline">E</span>kor</div>
+                  <p class="text-xs text-purple-900 font-semibold leading-snug">
+                    Bunyi vokal depan yang jelas dan terbuka seperti dalam perkataan <strong>ekor</strong>, <strong>esok</strong>, dan <strong>meja</strong>.
+                  </p>
+                </div>
+              </div>
+              <button onclick="testLevel1Letter('taling')" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white py-1.5 text-xs w-full">
+                🔊 DENGAR CONTOH: “EKOR”
+              </button>
+            </div>
+          </div>
+
+          <div class="flex justify-center">
+            <button onclick="launchMissionPortal()" class="pixel-btn bg-amber-400 hover:bg-amber-300 text-slate-950 px-5 py-2 text-xs sm:text-sm">
+              🌀 MULAKAN MISI BUNYI
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function testLevel1Letter(type) {
+      triggerPapazolaJump();
+      if (type === 'pepet') {
+        playSFX('pepet_chime');
+        setTimeout(() => {
+          speakMalay('emak', { mp3Key: 'emak', isWord: true });
+        }, 260);
+      } else {
+        playSFX('taling_chime');
+        setTimeout(() => {
+          speakMalay('ekor', { mp3Key: 'ekor', isWord: true });
+        }, 260);
+      }
+    }
+
+    function launchMissionPortal() {
+      playSFX('teleport');
+      portalOpening = true;
+      portalRadius = 10;
+      papazolaState.targetX = 520;
+      triggerPapazolaJump();
+      setPapazolaDialogue('“Jangan tertipu dengan huruf e! Mari masuk ke Hutan Kristal E-Pepet!”');
+
+      setTimeout(() => {
+        portalOpening = false;
+        navigateTo('level2');
+      }, 1300);
+    }
+
+    /* ---------------- LEVEL 2: HUTAN KRISTAL E-PEPET ---------------- */
+    let selectedPepetWord = WORDS_DATA.pepet[0];
+
+    function renderLevel2(stageArea, noteContainer) {
+      setPapazolaDialogue('“Selamat datang ke Hutan Kristal E-Pepet! Tekan semua 6 objek hutan untuk mendengar bunyi dan melihat ejaan Jawinya!”');
+
+      stageArea.innerHTML = `
+        <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+          ${WORDS_DATA.pepet.map(w => {
+            const explored = gameState.exploredPepet.includes(w.id);
+            const active = selectedPepetWord.id === w.id;
+            return `
+              <button onclick="selectPepetObject('${w.id}')"
+                class="pixel-btn ${active ? 'bg-emerald-400 text-slate-950 anim-glow-green' : explored ? 'bg-emerald-800 text-white' : 'bg-slate-900/90 text-emerald-200'} px-2.5 py-1 text-xs">
+                <span class="text-sm">${w.icon}</span>
+                <span>${w.rumi}</span>
+                ${explored ? '<span>✅</span>' : ''}
+              </button>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      const w = selectedPepetWord;
+      const countExplored = gameState.exploredPepet.length;
+
+      noteContainer.innerHTML = `
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-title font-extrabold text-base sm:text-lg text-emerald-950">
+              🌲 LEVEL 2: Hutan Kristal E-Pepet (${countExplored}/6 Diterokai)
+            </h2>
+            <div class="flex gap-1.5">
+              <button onclick="gameState.level2Tab='awal'; renderCurrentScreen()" class="pixel-btn ${gameState.level2Tab === 'awal' ? 'bg-emerald-600 text-white' : 'bg-white text-emerald-900'} px-2.5 py-0.5 text-[11px]">
+                1. Awal Perkataan
+              </button>
+              <button onclick="gameState.level2Tab='tengah'; renderCurrentScreen()" class="pixel-btn ${gameState.level2Tab === 'tengah' ? 'bg-emerald-600 text-white' : 'bg-white text-emerald-900'} px-2.5 py-0.5 text-[11px]">
+                2. Tengah Perkataan
+              </button>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-3">
+            <!-- Kad Perkataan Terpilih -->
+            <div class="lg:col-span-7 pixel-box-pepet bg-white p-3 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="text-3xl">${w.icon}</span>
+                  <div>
+                    <div class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">${w.highlightHtml}</div>
+                    <div class="text-[11px] font-bold text-slate-500">Suku kata: ${w.syllables.join(' - ')}</div>
+                  </div>
+                </div>
+                <div class="text-right bg-emerald-50 border-2 border-emerald-400 rounded-xl px-3 py-1">
+                  <div class="font-jawi text-2xl sm:text-3xl font-bold text-emerald-900 anim-magic-pop leading-tight">${w.jawi}</div>
+                  <div class="text-[10px] font-extrabold text-emerald-700">${w.vowelMarker}</div>
+                </div>
+              </div>
+
+              <!-- Pecahan Huruf Bercantum -->
+              <div class="bg-emerald-50/80 rounded-lg p-2 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1 flex-row-reverse">
+                  ${w.letters.map(l => `<span class="bg-white border-2 border-emerald-500 rounded-md px-2 py-0.5 font-jawi text-lg font-bold text-slate-900">${l}</span>`).join('')}
+                </div>
+                <button onclick="speakMalay('${w.rumi}', { mp3Key: '${w.id}', isWord: true })" class="pixel-btn bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 text-xs">
+                  🔊 DENGAR SEBUTAN
+                </button>
+              </div>
+
+              <p class="text-xs font-bold text-slate-700 leading-snug">
+                💡 ${w.ruleDetail}
+              </p>
+            </div>
+
+            <!-- Nota Hukum & Kotak Rahsia E-Pepet -->
+            <div class="lg:col-span-5 space-y-2">
+              <div class="bg-emerald-100 border-2 border-emerald-500 rounded-xl p-2.5 text-xs text-emerald-950 font-semibold leading-snug">
+                ${gameState.level2Tab === 'awal'
+                  ? `<strong>📌 E-Pepet pada Awal Perkataan:</strong><br/>Vokal e-pepet di awal perkataan (seperti <em>emak</em>, <em>enam</em>) dilambangkan dengan huruf <strong>Alif (ا)</strong>.`
+                  : `<strong>📌 E-Pepet di Tengah Perkataan:</strong><br/>Pada suku kata terbuka praakhir (<em>ke-ra, be-sar, ke-la-pa, se-mut</em>), bunyi e-pepet tidak ditulis huruf vokal.`
+                }
+              </div>
+
+              <div class="pixel-box-gold bg-amber-50 p-2.5">
+                <div class="font-pixel text-[9px] text-amber-800 mb-1">🔐 RAHSIA E-PEPET</div>
+                <ul class="text-[11px] font-bold text-slate-800 space-y-0.5 leading-snug">
+                  <li>• <strong>Di awal kata:</strong> Guna <strong>Alif (ا)</strong> → <em>emak</em> (امق).</li>
+                  <li>• <strong>Di tengah kata:</strong> Tiada huruf vokal → <em>kera</em> (کرا), <em>semut</em> (سموت).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectPepetObject(wordId) {
+      const found = WORDS_DATA.pepet.find(item => item.id === wordId);
+      if (!found) return;
+      selectedPepetWord = found;
+      gameState.level2Tab = found.position;
+      triggerPapazolaJump();
+
+      if (!gameState.exploredPepet.includes(wordId)) {
+        gameState.exploredPepet.push(wordId);
+        awardReward(10, 0, `Meneroka "${found.rumi}"`);
+      }
+
+      // Semak pemulihan Kristal E-Pepet apabila kesemua 6 contoh diterokai
+      if (gameState.exploredPepet.length >= WORDS_DATA.pepet.length && !gameState.pepetCrystalRestored) {
+        gameState.pepetCrystalRestored = true;
+        awardReward(30, 1, 'Kristal E-Pepet Dipulihkan!');
+        playSFX('crystal_restore');
+        setPapazolaDialogue('“Hebat! Kristal E-Pepet kembali bercahaya hijau zamrud!”');
+      } else {
+        playSFX('pepet_chime');
+        setPapazolaDialogue(`“${found.rumi}! ${found.ruleShort}”`);
+      }
+
+      saveGameState();
+      renderCurrentScreen();
+      setTimeout(() => {
+        speakMalay(found.rumi, { mp3Key: found.id, isWord: true });
+      }, 280);
+    }
+
+    /* ---------------- LEVEL 3: MENARA KRISTAL E-TALING ---------------- */
+    let selectedTalingWord = WORDS_DATA.taling[0];
+
+    function renderLevel3(stageArea, noteContainer) {
+      setPapazolaDialogue('“Kita tiba di Menara Kristal E-Taling! Tekan semua 6 objek menara untuk melihat kuasa magik huruf Ya (ي)!”');
+
+      stageArea.innerHTML = `
+        <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+          ${WORDS_DATA.taling.map(w => {
+            const explored = gameState.exploredTaling.includes(w.id);
+            const active = selectedTalingWord.id === w.id;
+            return `
+              <button onclick="selectTalingObject('${w.id}')"
+                class="pixel-btn ${active ? 'bg-purple-400 text-slate-950 anim-glow-purple' : explored ? 'bg-purple-800 text-white' : 'bg-slate-900/90 text-purple-200'} px-2.5 py-1 text-xs">
+                <span class="text-sm">${w.icon}</span>
+                <span>${w.rumi}</span>
+                ${explored ? '<span>✅</span>' : ''}
+              </button>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      const w = selectedTalingWord;
+      const countExplored = gameState.exploredTaling.length;
+
+      noteContainer.innerHTML = `
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-title font-extrabold text-base sm:text-lg text-purple-950">
+              🏰 LEVEL 3: Menara Kristal E-Taling (${countExplored}/6 Diterokai)
+            </h2>
+            <div class="flex gap-1.5">
+              <button onclick="gameState.level3Tab='awal'; renderCurrentScreen()" class="pixel-btn ${gameState.level3Tab === 'awal' ? 'bg-purple-600 text-white' : 'bg-white text-purple-900'} px-2.5 py-0.5 text-[11px]">
+                1. Awal Perkataan
+              </button>
+              <button onclick="gameState.level3Tab='tengah'; renderCurrentScreen()" class="pixel-btn ${gameState.level3Tab === 'tengah' ? 'bg-purple-600 text-white' : 'bg-white text-purple-900'} px-2.5 py-0.5 text-[11px]">
+                2. Tengah Perkataan
+              </button>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-12 gap-3">
+            <!-- Kad Perkataan Terpilih -->
+            <div class="lg:col-span-7 pixel-box-taling bg-white p-3 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="text-3xl">${w.icon}</span>
+                  <div>
+                    <div class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight">${w.highlightHtml}</div>
+                    <div class="text-[11px] font-bold text-slate-500">Suku kata: ${w.syllables.join(' - ')}</div>
+                  </div>
+                </div>
+                <div class="text-right bg-purple-50 border-2 border-purple-400 rounded-xl px-3 py-1">
+                  <div class="font-jawi text-2xl sm:text-3xl font-bold text-purple-900 anim-magic-pop leading-tight">${w.jawi}</div>
+                  <div class="text-[10px] font-extrabold text-purple-700">${w.vowelMarker}</div>
+                </div>
+              </div>
+
+              <!-- Pecahan Huruf dengan Serlahan Ya -->
+              <div class="bg-purple-50/80 rounded-lg p-2 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1 flex-row-reverse">
+                  ${w.letters.map(l => {
+                    const isYa = (l === 'ي');
+                    return `<span class="${isYa ? 'bg-purple-600 text-white border-amber-300 anim-magic-pop' : 'bg-white text-slate-900 border-purple-400'} border-2 rounded-md px-2 py-0.5 font-jawi text-lg font-bold">${l}</span>`;
+                  }).join('')}
+                </div>
+                <button onclick="speakMalay('${w.rumi}', { mp3Key: '${w.id}', isWord: true })" class="pixel-btn bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 text-xs">
+                  🔊 DENGAR SEBUTAN
+                </button>
+              </div>
+
+              <p class="text-xs font-bold text-slate-700 leading-snug">
+                ✨ ${w.ruleDetail}
+              </p>
+            </div>
+
+            <!-- Nota Hukum & Kotak Rahsia E-Taling -->
+            <div class="lg:col-span-5 space-y-2">
+              <div class="bg-purple-100 border-2 border-purple-500 rounded-xl p-2.5 text-xs text-purple-950 font-semibold leading-snug">
+                ${gameState.level3Tab === 'awal'
+                  ? `<strong>📌 E-Taling pada Awal Perkataan:</strong><br/>Vokal e-taling di awal perkataan (<em>ekor, esok, elok</em>) dilambangkan dengan gabungan <strong>Alif dan Ya (اي)</strong>.`
+                  : `<strong>📌 E-Taling di Tengah Perkataan:</strong><br/>Vokal e-taling di tengah perkataan (<em>meja, leher, leper</em>) dilambangkan dengan huruf <strong>Ya (ي)</strong>.`
+                }
+              </div>
+
+              <div class="pixel-box-gold bg-amber-50 p-2.5">
+                <div class="font-pixel text-[9px] text-amber-800 mb-1">🔐 RAHSIA E-TALING</div>
+                <ul class="text-[11px] font-bold text-slate-800 space-y-0.5 leading-snug">
+                  <li>• <strong>Di awal kata:</strong> Guna <strong>Alif + Ya (اي)</strong> → <em>ekor</em> (ايکور).</li>
+                  <li>• <strong>Di tengah kata:</strong> Guna huruf <strong>Ya (ي)</strong> → <em>meja</em> (ميجا), <em>leher</em> (ليهير).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectTalingObject(wordId) {
+      const found = WORDS_DATA.taling.find(item => item.id === wordId);
+      if (!found) return;
+      selectedTalingWord = found;
+      gameState.level3Tab = found.position;
+      triggerPapazolaJump();
+
+      if (!gameState.exploredTaling.includes(wordId)) {
+        gameState.exploredTaling.push(wordId);
+        awardReward(10, 0, `Meneroka "${found.rumi}"`);
+      }
+
+      if (gameState.exploredTaling.length >= WORDS_DATA.taling.length && !gameState.talingCrystalRestored) {
+        gameState.talingCrystalRestored = true;
+        awardReward(30, 1, 'Kristal E-Taling Dipulihkan!');
+        playSFX('crystal_restore');
+        setPapazolaDialogue('“Syabas! Kristal E-Taling kini bercahaya ungu gemilang!”');
+      } else {
+        playSFX('taling_chime');
+        setPapazolaDialogue(`“${found.rumi}! ${found.ruleShort}”`);
+      }
+
+      saveGameState();
+      renderCurrentScreen();
+      setTimeout(() => {
+        speakMalay(found.rumi, { mp3Key: found.id, isWord: true });
+      }, 280);
+    }
+
+    /* ---------------- LEVEL 4: MAKMAL PERBANDINGAN BUNYI ---------------- */
+    function renderLevel4(stageArea, noteContainer) {
+      setPapazolaDialogue('“Bandingkan Mesin Hijau E-Pepet dan Mesin Ungu E-Taling! Tekan DENGAR PERBEZAAN untuk menguji telinga wira!”');
+
+      const pair = COMPARISON_PAIRS[gameState.level4PairIdx];
+
+      stageArea.innerHTML = `
+        <div class="flex flex-wrap justify-center gap-1.5">
+          ${COMPARISON_PAIRS.map((p, idx) => `
+            <button onclick="gameState.level4PairIdx=${idx}; playSFX('click'); renderCurrentScreen()"
+              class="pixel-btn ${gameState.level4PairIdx === idx ? 'bg-amber-400 text-slate-950' : 'bg-slate-900/90 text-white'} px-2.5 py-1 text-xs">
+              ${p.pepet.rumi} vs ${p.taling.rumi}
+            </button>
+          `).join('')}
+        </div>
+      `;
+
+      noteContainer.innerHTML = `
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-title font-extrabold text-base sm:text-lg text-blue-950">
+              🔬 LEVEL 4: Makmal Perbandingan Bunyi
+            </h2>
+            <button onclick="playComparisonSequence()" class="pixel-btn bg-amber-400 hover:bg-amber-300 text-slate-950 px-3.5 py-1.5 text-xs">
+              🎧 DENGAR PERBEZAAN
+            </button>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-2.5">
+            <!-- Mesin Hijau E-Pepet -->
+            <div id="machine-green-card" class="pixel-box-pepet bg-emerald-50 px-3 py-2 flex items-center justify-between gap-2">
+              <div>
+                <span class="bg-emerald-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full">MESIN HIJAU • E-PEPET</span>
+                <div class="flex items-baseline gap-2.5 mt-0.5">
+                  <span class="text-lg sm:text-xl font-extrabold text-emerald-950">${pair.pepet.highlightHtml}</span>
+                  <span class="font-jawi text-2xl font-bold text-emerald-800">${pair.pepet.jawi}</span>
+                </div>
+                <div class="text-[11px] font-bold text-emerald-700">${pair.pepet.vowelMarker}</div>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div id="wave-green" class="flex items-center gap-1 h-6">
+                  <span class="wave-bar bg-emerald-500"></span>
+                  <span class="wave-bar bg-emerald-500"></span>
+                  <span class="wave-bar bg-emerald-500"></span>
+                  <span class="wave-bar bg-emerald-500"></span>
+                  <span class="wave-bar bg-emerald-500"></span>
+                </div>
+                <button onclick="triggerSingleMachine('pepet')" class="pixel-btn bg-emerald-600 text-white px-2.5 py-1 text-[11px]">
+                  🔊 Bunyi
+                </button>
+              </div>
+            </div>
+
+            <!-- Mesin Ungu E-Taling -->
+            <div id="machine-purple-card" class="pixel-box-taling bg-purple-50 px-3 py-2 flex items-center justify-between gap-2">
+              <div>
+                <span class="bg-purple-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full">MESIN UNGU • E-TALING</span>
+                <div class="flex items-baseline gap-2.5 mt-0.5">
+                  <span class="text-lg sm:text-xl font-extrabold text-purple-950">${pair.taling.highlightHtml}</span>
+                  <span class="font-jawi text-2xl font-bold text-purple-800">${pair.taling.jawi}</span>
+                </div>
+                <div class="text-[11px] font-bold text-purple-700">${pair.taling.vowelMarker}</div>
+              </div>
+              <div class="flex flex-col items-center gap-1">
+                <div id="wave-purple" class="flex items-center gap-1 h-6">
+                  <span class="wave-bar bg-purple-500"></span>
+                  <span class="wave-bar bg-purple-500"></span>
+                  <span class="wave-bar bg-purple-500"></span>
+                  <span class="wave-bar bg-purple-500"></span>
+                  <span class="wave-bar bg-purple-500"></span>
+                </div>
+                <button onclick="triggerSingleMachine('taling')" class="pixel-btn bg-purple-600 text-white px-2.5 py-1 text-[11px]">
+                  🔊 Bunyi
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Jadual Perbandingan Interaktif -->
+          <div class="bg-white border-2 border-slate-800 rounded-xl p-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+              <span class="font-extrabold text-xs text-slate-900">📊 Jadual Perbandingan Ringkas:</span>
+              <div class="flex gap-1.5">
+                <button onclick="gameState.level4TableTab='awal'; renderCurrentScreen()" class="pixel-btn ${gameState.level4TableTab === 'awal' ? 'bg-blue-700 text-white' : 'bg-slate-200 text-slate-800'} px-2 py-0.5 text-[11px]">
+                  Kedudukan Awal
+                </button>
+                <button onclick="gameState.level4TableTab='tengah'; renderCurrentScreen()" class="pixel-btn ${gameState.level4TableTab === 'tengah' ? 'bg-blue-700 text-white' : 'bg-slate-200 text-slate-800'} px-2 py-0.5 text-[11px]">
+                  Kedudukan Tengah
+                </button>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-[11px] sm:text-xs border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 border-b border-slate-300">
+                    <th class="px-2 py-1">Aspek</th>
+                    <th class="px-2 py-1 text-emerald-800">E-Pepet (Hijau)</th>
+                    <th class="px-2 py-1 text-purple-800">E-Taling (Ungu)</th>
+                  </tr>
+                </thead>
+                <tbody class="font-semibold">
+                  <tr class="border-b border-slate-200">
+                    <td class="px-2 py-1 font-bold">Kualiti Bunyi</td>
+                    <td class="px-2 py-1">Vokal tengah (/ə/) seperti <em>emak</em></td>
+                    <td class="px-2 py-1">Vokal depan (/e/) seperti <em>ekor</em></td>
+                  </tr>
+                  <tr class="border-b border-slate-200">
+                    <td class="px-2 py-1 font-bold">Huruf (${gameState.level4TableTab === 'awal' ? 'Awal' : 'Tengah'})</td>
+                    <td class="px-2 py-1">${gameState.level4TableTab === 'awal' ? 'Guna <strong>Alif (ا)</strong>' : '<strong>Tiada</strong> huruf vokal (suku kata terbuka)'}</td>
+                    <td class="px-2 py-1">${gameState.level4TableTab === 'awal' ? 'Guna <strong>Alif + Ya (اي)</strong>' : 'Guna huruf <strong>Ya (ي)</strong>'}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-2 py-1 font-bold">Contoh</td>
+                    <td class="px-2 py-1">${gameState.level4TableTab === 'awal' ? 'Emak (<span class="font-jawi text-base">امق</span>), Enam (<span class="font-jawi text-base">انم</span>)' : 'Kera (<span class="font-jawi text-base">کرا</span>), Besar (<span class="font-jawi text-base">بسر</span>)'}</td>
+                    <td class="px-2 py-1">${gameState.level4TableTab === 'awal' ? 'Ekor (<span class="font-jawi text-base">ايکور</span>), Esok (<span class="font-jawi text-base">ايسوق</span>)' : 'Meja (<span class="font-jawi text-base">ميجا</span>), Leper (<span class="font-jawi text-base">ليڤير</span>)'}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function triggerSingleMachine(type) {
+      const pair = COMPARISON_PAIRS[gameState.level4PairIdx];
+      const waveEl = document.getElementById(type === 'pepet' ? 'wave-green' : 'wave-purple');
+      if (waveEl) waveEl.classList.add('wave-active');
+      playSFX(type === 'pepet' ? 'pepet_chime' : 'taling_chime');
+      const targetWord = type === 'pepet' ? pair.pepet : pair.taling;
+      setTimeout(() => {
+        speakMalay(targetWord.rumi, {
+          mp3Key: targetWord.id,
+          isWord: true,
+          onEnd: () => { if (waveEl) waveEl.classList.remove('wave-active'); }
+        });
+      }, 240);
+    }
+
+    function playComparisonSequence() {
+      const pair = COMPARISON_PAIRS[gameState.level4PairIdx];
+      const waveGreen = document.getElementById('wave-green');
+      const wavePurple = document.getElementById('wave-purple');
+      if (waveGreen) waveGreen.classList.add('wave-active');
+      playSFX('radar_pulse');
+
+      setTimeout(() => {
+        speakMalay(pair.pepet.rumi, {
+          mp3Key: pair.pepet.id,
+          isWord: true,
+          onEnd: () => {
+            if (waveGreen) waveGreen.classList.remove('wave-active');
+            setTimeout(() => {
+              if (wavePurple) wavePurple.classList.add('wave-active');
+              speakMalay(pair.taling.rumi, {
+                mp3Key: pair.taling.id,
+                isWord: true,
+                onEnd: () => {
+                  if (wavePurple) wavePurple.classList.remove('wave-active');
+                }
+              });
+            }, 450);
+          }
+        });
+      }, 250);
+    }
+
+    /* ---------------- LEVEL 5: BENGKEL MESIN EJAAN JAWI ---------------- */
+    const WORKSHOP_WORDS = [
+      ...WORDS_DATA.pepet.map(w => ({ ...w, type: 'pepet' })),
+      ...WORDS_DATA.taling.map(w => ({ ...w, type: 'taling' }))
+    ];
+    let workshopShowSyllables = true;
+    let workshopRevealedCount = 99;
+
+    function renderLevel5(stageArea, noteContainer) {
+      setPapazolaDialogue('“Selamat datang ke Bengkel Mesin Ejaan! Pilih perkataan dan aktifkan mesin untuk melihat huruf Jawi bercantum!”');
+
+      const w = WORKSHOP_WORDS[gameState.level5WordIdx % WORKSHOP_WORDS.length];
+      const isPepet = w.type === 'pepet';
+
+      stageArea.innerHTML = `
+        <div class="bg-slate-900/90 border-2 border-amber-400 rounded-xl px-4 py-2 text-center">
+          <span class="text-xs font-extrabold text-amber-300">⚙️ MESIN PEMASANGAN HURUF JAWI AKTIF</span>
+        </div>
+      `;
+
+      noteContainer.innerHTML = `
+        <div class="space-y-2">
+          <!-- Pemilih Perkataan -->
+          <div class="flex flex-wrap items-center justify-between gap-1.5">
+            <h2 class="font-title font-extrabold text-base sm:text-lg text-blue-950">
+              ⚙️ LEVEL 5: Bengkel Mesin Ejaan Jawi
+            </h2>
+            <div class="flex flex-wrap gap-1">
+              ${WORKSHOP_WORDS.map((item, idx) => `
+                <button onclick="selectWorkshopWord(${idx})"
+                  class="pixel-btn ${gameState.level5WordIdx === idx ? 'bg-amber-400 text-slate-950' : item.type === 'pepet' ? 'bg-emerald-100 text-emerald-950' : 'bg-purple-100 text-purple-950'} px-1.5 py-0.5 text-[10px] sm:text-[11px]">
+                  ${item.rumi}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Paparan Utama Mesin -->
+          <div class="${isPepet ? 'pixel-box-pepet bg-emerald-50/70' : 'pixel-box-taling bg-purple-50/70'} p-2.5 sm:p-3 space-y-2">
+            <div class="grid sm:grid-cols-3 gap-2.5 items-center text-center">
+              <div class="bg-white rounded-xl p-2 border-2 border-slate-300">
+                <div class="text-2xl sm:text-3xl">${w.icon}</div>
+                <div class="text-lg font-extrabold text-slate-900 leading-tight">${w.highlightHtml}</div>
+                ${workshopShowSyllables ? `<div class="mt-0.5 inline-block bg-amber-200 text-amber-950 text-[10px] font-extrabold px-2 py-0.5 rounded-full">Suku Kata: ${w.syllables.join(' • ')}</div>` : ''}
+              </div>
+
+              <!-- Huruf Jawi Satu Demi Satu -->
+              <div class="bg-white rounded-xl p-2 border-2 border-slate-300">
+                <div class="text-[10px] font-bold text-slate-500 mb-1">Susunan Huruf (Kanan → Kiri)</div>
+                <div class="flex items-center justify-center gap-1 flex-row-reverse min-h-[36px]">
+                  ${w.letters.slice(0, workshopRevealedCount).map(l => `
+                    <span class="anim-magic-pop bg-slate-900 text-amber-300 font-jawi text-xl font-bold px-2 py-0.5 rounded-md">${l}</span>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Hasil Cantuman Jawi -->
+              <div class="bg-slate-900 text-white rounded-xl p-2 border-2 border-amber-400">
+                <div class="text-[10px] font-bold text-amber-300 mb-0.5">Hasil Bercantum</div>
+                <div class="font-jawi text-3xl font-bold text-white min-h-[38px] leading-tight">
+                  ${workshopRevealedCount >= w.letters.length ? w.jawi : '...'}
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white/90 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800 leading-snug">
+              💡 <strong>Penjelasan:</strong> ${w.ruleDetail}
+            </div>
+
+            <!-- Butang Kawalan Mesin -->
+            <div class="flex flex-wrap justify-center gap-1.5">
+              <button onclick="speakMalay('${w.rumi}', { mp3Key: '${w.id}', isWord: true })" class="pixel-btn bg-blue-700 text-white px-2.5 py-1 text-[11px]">
+                🔊 DENGAR PERKATAAN
+              </button>
+              <button onclick="workshopShowSyllables = !workshopShowSyllables; playSFX('click'); renderCurrentScreen()" class="pixel-btn bg-amber-300 text-slate-950 px-2.5 py-1 text-[11px]">
+                ✂️ SUKU KATA
+              </button>
+              <button onclick="workshopActivateMachine()" class="pixel-btn bg-emerald-600 text-white px-2.5 py-1 text-[11px]">
+                ⚡ AKTIFKAN MESIN
+              </button>
+              <button onclick="selectWorkshopWord((gameState.level5WordIdx + 1) % WORKSHOP_WORDS.length)" class="pixel-btn bg-slate-800 text-white px-2.5 py-1 text-[11px]">
+                ⏭️ SETERUSNYA
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectWorkshopWord(idx) {
+      gameState.level5WordIdx = idx;
+      workshopRevealedCount = WORKSHOP_WORDS[idx].letters.length;
+      playSFX('click');
+      renderCurrentScreen();
+      const w = WORKSHOP_WORDS[idx];
+      speakMalay(w.rumi, { mp3Key: w.id, isWord: true });
+    }
+
+    function workshopActivateMachine() {
+      const w = WORKSHOP_WORDS[gameState.level5WordIdx % WORKSHOP_WORDS.length];
+      workshopRevealedCount = 0;
+      playSFX('machine_power');
+      renderCurrentScreen();
+
+      let step = 0;
+      const timer = setInterval(() => {
+        step++;
+        workshopRevealedCount = step;
+        playSFX('pop');
+        renderCurrentScreen();
+        if (step >= w.letters.length) {
+          clearInterval(timer);
+          playSFX('crystal_sparkle');
+          speakMalay(w.rumi, { mp3Key: w.id, isWord: true });
+        }
+      }, 360);
+    }
+
+    /* ---------------- LEVEL 6: PORTAL KEBENARAN ---------------- */
+    const PORTAL_CHALLENGES = [
+      {
+        title: 'Cabaran 1 — Radar Bunyi',
+        prompt: 'Tekan butang audio di bawah, dengar perkataan “ESOK”, dan pilih jenis bunyi vokalnya:',
+        audioWord: 'Esok',
+        audioKey: 'esok',
+        options: [
+          { label: '🟢 E-Pepet (seperti emak)', correct: false },
+          { label: '🟣 E-Taling (seperti ekor)', correct: true }
+        ],
+        hint: 'Petunjuk: Bunyi awal "esok" jelas dan terbuka seperti "ekor" (E-Taling).'
+      },
+      {
+        title: 'Cabaran 2 — Baiki Mesin Ejaan',
+        prompt: 'Lengkapkan ejaan Jawi bagi perkataan “MEJA” (مـ _ جـا). Huruf apakah yang diperlukan?',
+        audioWord: 'Meja',
+        audioKey: 'meja',
+        options: [
+          { label: 'ي (Huruf Ya)', correct: true },
+          { label: 'Tiada huruf vokal', correct: false }
+        ],
+        hint: 'Petunjuk: Perkataan "meja" mempunyai bunyi e-taling di tengah perkataan, jadi ia memerlukan huruf Ya (ي).'
+      },
+      {
+        title: 'Cabaran 3 — Kunci Portal',
+        prompt: 'Pilih ejaan Jawi yang betul bagi perkataan “KERA” (bunyi e-pepet):',
+        audioWord: 'Kera',
+        audioKey: 'kera',
+        options: [
+          { label: 'کيرا', correct: false },
+          { label: 'کرا', correct: true }
+        ],
+        hint: 'Petunjuk: Suku kata "ke-" pada perkataan "kera" berbunyi e-pepet, maka tiada huruf Ya ditulis.'
+      }
+    ];
+
+    function renderLevel6(stageArea, noteContainer) {
+      const idx = gameState.level6ChallengeIdx;
+      const allDone = gameState.level6Completed.every(Boolean);
+
+      if (allDone) {
+        gameState.portalActivated = true;
+        saveGameState();
+        setPapazolaDialogue('“Tahniah, wira kebenaran! Kini kamu mampu membezakan bunyi e-pepet dan e-taling serta memahami kaedah ejaannya dalam tulisan Jawi!”');
+
+        stageArea.innerHTML = `
+          <div class="bg-amber-400 text-slate-950 border-4 border-white rounded-2xl px-5 py-2.5 text-center shadow-xl anim-magic-pop">
+            <div class="font-pixel text-[10px] sm:text-xs">🏆 LENCANA TERBUKA!</div>
+            <div class="font-title font-extrabold text-lg sm:text-xl">WIRA DUA BUNYI JAWI</div>
+          </div>
+        `;
+
+        noteContainer.innerHTML = `
+          <div class="pixel-box-gold bg-white p-4 sm:p-5 space-y-3 text-center">
+            <h2 class="font-title font-extrabold text-xl sm:text-2xl text-blue-950">
+              🎉 PORTAL KEBENARAN BERJAYA DIAKTIFKAN!
+            </h2>
+            <p class="text-xs sm:text-sm font-bold text-slate-700 max-w-2xl mx-auto">
+              <strong>Rumusan Pembelajaran:</strong><br/>
+              1. <strong>E-Pepet</strong> (bunyi seperti <em>emak, kera</em>): Guna <strong>Alif (ا)</strong> di awal kata, dan <strong>tiada huruf vokal</strong> pada suku kata terbuka di tengah kata.<br/>
+              2. <strong>E-Taling</strong> (bunyi seperti <em>ekor, meja</em>): Guna <strong>Alif + Ya (اي)</strong> di awal kata, dan huruf <strong>Ya (ي)</strong> di tengah kata.
+            </p>
+            <div class="flex justify-center gap-3 pt-1">
+              <button onclick="spawnConfetti(); playSFX('fanfare')" class="pixel-btn bg-amber-400 text-slate-950 px-4 py-2 text-xs sm:text-sm">
+                ✨ RAIKAN KEMENANGAN
+              </button>
+              <button onclick="navigateTo('home')" class="pixel-btn bg-blue-700 text-white px-4 py-2 text-xs sm:text-sm">
+                🏠 KEMBALI KE UTAMA
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const ch = PORTAL_CHALLENGES[idx];
+      setPapazolaDialogue('“Selesaikan 3 kunci portal ini untuk menggabungkan kuasa kedua-dua kristal bunyi!”');
+
+      stageArea.innerHTML = `
+        <div class="flex gap-2">
+          ${PORTAL_CHALLENGES.map((_, i) => `
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold border-2 ${gameState.level6Completed[i] ? 'bg-emerald-500 border-white text-white' : i === idx ? 'bg-amber-400 border-slate-900 text-slate-950' : 'bg-slate-900/80 border-slate-600 text-slate-400'}">
+              Kunci ${i + 1} ${gameState.level6Completed[i] ? '✅' : ''}
+            </span>
+          `).join('')}
+        </div>
+      `;
+
+      noteContainer.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-title font-extrabold text-lg sm:text-xl text-blue-950">
+              🌀 LEVEL 6: Portal Kebenaran — ${ch.title}
+            </h2>
+            <button onclick="speakMalay('${ch.audioWord}', { mp3Key: '${ch.audioKey}', isWord: true })" class="pixel-btn bg-blue-700 text-white px-3.5 py-1.5 text-xs sm:text-sm">
+              🔊 DENGAR PERKATAAN
+            </button>
+          </div>
+
+          <div class="bg-white border-3 border-slate-800 rounded-2xl p-4 space-y-4">
+            <p class="text-sm sm:text-base font-extrabold text-slate-900">${ch.prompt}</p>
+            <div class="grid sm:grid-cols-2 gap-3">
+              ${ch.options.map((opt, optIdx) => `
+                <button onclick="submitPortalAnswer(${optIdx})"
+                  class="pixel-btn bg-slate-100 hover:bg-amber-200 text-slate-950 py-3.5 px-4 text-base sm:text-lg font-jawi">
+                  ${opt.label}
+                </button>
+              `).join('')}
+            </div>
+            <div id="portal-feedback" class="text-xs sm:text-sm font-bold text-slate-600"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function submitPortalAnswer(optIdx) {
+      const ch = PORTAL_CHALLENGES[gameState.level6ChallengeIdx];
+      if (!ch || !ch.options[optIdx]) return;
+      const isCorrect = ch.options[optIdx].correct;
+      const hintText = ch.hint;
+      const fb = document.getElementById('portal-feedback');
+      if (isCorrect) {
+        gameState.level6Completed[gameState.level6ChallengeIdx] = true;
+        awardReward(25, 1, 'Kunci Portal Berjaya Dibuka!');
+        playSFX('correct');
+        triggerPapazolaJump();
+
+        if (gameState.level6Completed.every(Boolean)) {
+          gameState.pepetCrystalRestored = true;
+          gameState.talingCrystalRestored = true;
+          gameState.portalActivated = true;
+          spawnConfetti();
+          playSFX('fanfare');
+        } else {
+          gameState.level6ChallengeIdx = (gameState.level6ChallengeIdx + 1) % PORTAL_CHALLENGES.length;
+        }
+        saveGameState();
+        renderCurrentScreen();
+      } else {
+        playSFX('wrong');
+        if (fb) {
+          fb.innerHTML = `<span class="text-red-600">❌ Cuba lagi! ${hintText}</span>`;
+        }
+        setPapazolaDialogue(`“Jangan mengalah wira! ${hintText}”`);
+      }
+    }
+
+    /* ---------------- BUTANG UTILITI FOOTER ---------------- */
+    function replayLevelAnimation() {
+      playSFX('crystal_sparkle');
+      triggerPapazolaJump();
+      if (gameState.screen === 'level5') {
+        workshopActivateMachine();
+      } else if (gameState.screen === 'level4') {
+        playComparisonSequence();
+      } else {
+        showToast('Animasi pengembaraan diulang semula!');
+      }
+    }
+
+    /* =========================================================================
+       9. PERMULAAN APLIKASI
+       ========================================================================= */
+    window.onload = function () {
+      loadGameState();
+      updateSpeechModeUI();
+      updateHUD();
+      renderCurrentScreen();
+      animationLoop();
+    };
+  </script>
+</body>
+</html>
